@@ -31,6 +31,27 @@ core.feed('local', function (err, feed) {
 var app = neatlog(view)
 app.use(mainloop)
 
+app.input.on('right', moveLocalPlayer.bind(null, 1, 0))
+app.input.on('left', moveLocalPlayer.bind(null, -1, 0))
+app.input.on('up', moveLocalPlayer.bind(null, 0, -1))
+app.input.on('down', moveLocalPlayer.bind(null, 0, 1))
+
+function moveLocalPlayer (xoffset, yoffset) {
+  core.feed('local', function (err, feed) {
+    core.api.pos.get(feed.key.toString('hex'), function (err, values) {
+      var x = (values[0].value.x || 0) + xoffset
+      var y = (values[0].value.y || 0) + yoffset
+      var links = values.map(v => v.key + '@' + v.seq)
+      feed.append({
+        type: 'move-player',
+        x: x,
+        y: y,
+        links: links
+      })
+    })
+  })
+}
+
 function view (state) {
   var screen = []
 
@@ -78,13 +99,13 @@ function mainloop (state, bus) {
     state.characters = {}
     core.api.pos.createReadStream()
       .on('data', function (entry) {
-        state.characters[entry.key] = { x: entry.value.x, y: entry.value.y }
+        state.characters[entry.key] = { x: entry.value.value.x, y: entry.value.value.y }
       })
       .on('end', draw)
 
     function draw () {
       bus.emit('render')
     }
-  }, 1000)
+  }, 100)
 }
 
