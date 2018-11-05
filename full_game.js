@@ -8,8 +8,7 @@ var kv = require('kappa-view-kv')
 var list = require('kappa-view-list')
 var ram = require('random-access-memory')
 
-var core = kappa(ram, {valueEncoding:'json'})
-core.use('pos', kv(memdb(), function map (msg, next) {
+var positionView = kv(memdb(), function (msg, next) {
   if (msg.value.type !== 'move-player') return next()
 
   var op = {
@@ -18,14 +17,21 @@ core.use('pos', kv(memdb(), function map (msg, next) {
     links: msg.value.links
   }
   next(null, [op])
-}))
-core.use('chat', list(memdb(), function map (msg, next) {
+})
+
+var chatView = list(memdb(), function (msg, next) {
   if (msg.value.type !== 'chat-message') return next()
 
   next(null, [msg.value.timestamp])
-}))
+})
 
+var core = kappa(ram, {valueEncoding:'json'})
+core.use('pos', positionView)
+core.use('chat', chatView)
+
+// start the local player at 15,6, if their feed is empty
 core.feed('local', function (err, feed) {
+  if (feed.length > 0) return
   feed.append({
     type: 'move-player',
     x: 15,
@@ -43,11 +49,13 @@ var app = neatlog(view, {
 })
 app.use(mainloop)
 
+// player movement keys
 app.input.on('right', moveLocalPlayer.bind(null, 1, 0))
 app.input.on('left', moveLocalPlayer.bind(null, -1, 0))
 app.input.on('up', moveLocalPlayer.bind(null, 0, -1))
 app.input.on('down', moveLocalPlayer.bind(null, 0, 1))
 
+// composing chat messages
 app.input.on('keypress', function (ch, key) {
   if (!key || !key.name) return
   if (key.name === 'home') this.neat.input.cursor = 0
@@ -55,6 +63,7 @@ app.input.on('keypress', function (ch, key) {
   app.render()
 })
 
+// submitting a chat message
 app.input.on('enter', function (line) {
   core.feed('local', function (err, feed) {
     feed.append({
@@ -65,6 +74,7 @@ app.input.on('enter', function (line) {
   })
 })
 
+// move the local player
 function moveLocalPlayer (xoffset, yoffset) {
   core.feed('local', function (err, feed) {
     core.api.pos.get(feed.key.toString('hex'), function (err, values) {
@@ -81,6 +91,7 @@ function moveLocalPlayer (xoffset, yoffset) {
   })
 }
 
+// redraw the game synchronously
 function view (state) {
   var screen = []
 
@@ -102,15 +113,18 @@ function view (state) {
   return screen.join('\n')
 }
 
+// draw all of the players
 function drawWorld (state, w, h) {
   var out = []
   Object.keys(state.characters || {}).forEach(function (key) {
     var player = state.characters[key]
-    blit(out, ['@'], player.x, player.y)
+    var playerString = chalk.greenBright('@')
+    blit(out, [playerString], player.x, player.y)
   })
   return out
 }
 
+// draw the outline of the chat window
 function drawChatWindowOutline (w, h) {
   var topbottom = new Array(w).fill('-').join('')
 
@@ -129,18 +143,21 @@ function drawChatWindowOutline (w, h) {
   return out
 }
 
+// draw all of the chat messages
 function drawChatMessages (state, w, h) {
   return state.messages.map(function (msg) {
     return msg.key.substring(0,8) + '> ' + msg.value.text.substring(0, w)
   })
 }
 
+// draw the current chat message being composed
 function drawPrompt () {
   return [
     `> ${app.input.line()}`
   ]
 }
 
+// keep the ui state up-to-date by listening to the 'pos' and 'chat' views
 function mainloop (state, bus) {
   state.characters = {}
   state.messages = []
