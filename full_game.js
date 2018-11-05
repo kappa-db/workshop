@@ -7,6 +7,7 @@ var blit = require('txt-blit')
 var kv = require('kappa-view-kv')
 var list = require('kappa-view-list')
 var ram = require('random-access-memory')
+var discovery = require('discovery-swarm')
 
 var positionView = kv(memdb(), function (msg, next) {
   if (msg.value.type !== 'move-player') return next()
@@ -28,6 +29,16 @@ var chatView = list(memdb(), function (msg, next) {
 var core = kappa(ram, {valueEncoding:'json'})
 core.use('pos', positionView)
 core.use('chat', chatView)
+
+// search the local network + internet for peers
+var swarm = discovery()
+swarm.listen(4000 + Math.floor(Math.random() * 1000))
+swarm.join('p2p-game-ireland')
+swarm.on('connection', function (peer) {
+  var r = core.replicate()
+  r.pipe(peer).pipe(r)
+  r.on('error', function () {})
+})
 
 // start the local player at 15,6, if their feed is empty
 core.feed('local', function (err, feed) {
