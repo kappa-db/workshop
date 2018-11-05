@@ -150,7 +150,7 @@ function mainloop (state, bus) {
     bus.emit('render')
   })
 
-  core.api.chat.tail(10, function (msgs) {
+  core.api.chat.tail(8, function (msgs) {
     state.messages = msgs
     bus.emit('render')
   })
