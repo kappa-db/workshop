@@ -69,7 +69,7 @@ function view (state) {
 
 function drawWorld (state, w, h) {
   var out = []
-  Object.keys(state.characters).forEach(function (key) {
+  Object.keys(state.characters || {}).forEach(function (key) {
     var player = state.characters[key]
     blit(out, ['@'], player.x, player.y)
   })
@@ -95,6 +95,13 @@ function drawChatWindowOutline (w, h) {
 }
 
 function mainloop (state, bus) {
+  state.characters = {}
+
+  core.api.pos.onUpdate(function (key, msg) {
+    state.characters[key] = { x: msg.value.x, y: msg.value.y }
+    bus.emit('render')
+  })
+
   setInterval(function () {
     state.characters = {}
     core.api.pos.createReadStream()
@@ -106,6 +113,6 @@ function mainloop (state, bus) {
     function draw () {
       bus.emit('render')
     }
-  }, 100)
+  }, 1000)
 }
 
