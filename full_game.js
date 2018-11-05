@@ -154,18 +154,5 @@ function mainloop (state, bus) {
     state.messages = msgs
     bus.emit('render')
   })
-
-  setInterval(function () {
-    state.characters = {}
-    core.api.pos.createReadStream()
-      .on('data', function (entry) {
-        state.characters[entry.key] = { x: entry.value.value.x, y: entry.value.value.y }
-      })
-      .on('end', draw)
-
-    function draw () {
-      bus.emit('render')
-    }
-  }, 1000)
 }
 
