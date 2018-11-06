@@ -26,9 +26,4 @@ multi.writer('local', function (err, feed) {
       timestamp: new Date().toISOString()
     })
   })
-
-  feed.createReadStream({live:true})
-    .on('data', function (data) {
-      console.log(data.timestamp + '> ' + data.text.trim())
-    })
 })
