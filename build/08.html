@@ -687,6 +687,16 @@ multi.writer(&#39;local&#39;, function (err, feed) {
 
 })</code></pre>
 <p>You can look at <a href="https://github.com/noffle/kappa-arch-workshop/blob/master/solutions/08/multichat.js">the previous solution converted to multifeed</a> to start from.</p>
+<h4 id="tricky-bits">Tricky bits</h4>
+<ul>
+<li>replication will need to use <code>multi.replicate</code> instead of the old <code>feed.replcate</code>: multifeed will handle replicating <em>all feeds</em> for you.</li>
+<li>choose a new, arbitrary key for swarming, e.g. <code>swarm.join(&#39;foobar-123&#39;)</code></li>
+<li>if running <code>node multichat.js</code> in two separate windows, each process must be using <em>a different database</em>. A good trick is to do something like this during multifeed creation:</li>
+</ul>
+<pre><code class="language-js">var suffix = process.argv[2]
+
+var multi = multifeed(hypercore, &#39;./multichat-&#39; + suffix, {valueEncoding:&#39;json&#39;})</code></pre>
+<p>This way, you can run <code>node multichat.js 1</code> in one window, and <code>node multichat.js 2</code> in the other window. If you try to run two processes that open the same multifeed database, things won&#39;t work!</p>
 <h4 id="tips">Tips</h4>
 <ul>
 <li>It&#39;s important to use a different database name -<code>multichat</code>, because hypercore and multifeed databases are not compatible.</li>
