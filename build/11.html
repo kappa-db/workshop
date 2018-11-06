@@ -658,6 +658,6 @@ body { padding: 40px; }
 }</style></head><body class="markdown-body"><h3 id="11-query-most-recent-messages">11: Query most recent messages</h3>
 <p><code>kappa-view-list</code> has a function called <code>tail(limit, fn)</code> that will watch the last <code>limit</code> messages of the sorted list and run <code>fn</code> as <code>fn(msgs)</code> whenever that window changes, supplying the new last <code>limit</code> messages.</p>
 <h4 id="exercise">Exercise</h4>
-<p>Modify your old chat code to listen for chat view changes and re-write the last 10 chat messages to the terminal.</p>
-<p>Once you solve this exercise continue to <a href="12.html">exercise 12</a></p>
+<p>Copy your old code back over that lets you read <code>process.stdin</code> for lines of text &amp; writes them to the feed.</p>
+<p>Then, modify your code to listen for chat view changes and re-write the last 10 chat messages to the terminal.</p>
 </body></html>

@@ -659,32 +659,32 @@ body { padding: 40px; }
 <p>We&#39;re going to set up a kappa architecture and a view for sorting messages by timestamp.</p>
 <p>There are some pre-made general purpose views built on kappa-core, like a <em>key-value store</em> (<a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a>) and a <em>sorted list</em> (<a href="https://github.com/noffle/kappa-view-list">kappa-view-list</a>).</p>
 <p>Here is an example of a <em>sorted list view</em> that sorts a message&#39;s <code>timestamp</code> field alphabetically. <code>kappa-view-list</code> sorts lexigraphically by default.</p>
-<pre><code class="language-js">var kappa = require(&#39;kappa-core&#39;)
-var ram = require(&#39;random-access-memory&#39;)
+<pre><code class="language-js">// kappa-chat.js
+
+var kappa = require(&#39;kappa-core&#39;)
 var memdb = require(&#39;memdb&#39;)
 var list = require(&#39;kappa-view-list&#39;)
 
 var timestampView = list(memdb(), function (msg, next) {
-  if (msg.value.timestamp &amp;&amp; typeof msg.value.timestamp === &#39;string&#39;) {
-    // sort on the &#39;timestamp&#39; field
-    next(null, [msg.value.timestamp])
-  } else {
-    next()
-  }
+    if (msg.value.timestamp &amp;&amp; typeof msg.value.timestamp === &#39;string&#39;) {
+        // sort on the &#39;timestamp&#39; field
+        next(null, [msg.value.timestamp])
+    } else {
+        next()
+    }
 })
 
-var core = kappa(ram, {valueEncoding: &#39;json&#39;})
+var core = kappa(&#39;./multichat&#39;, {valueEncoding: &#39;json&#39;})
 core.use(&#39;chats&#39;, timestampView)</code></pre>
 <p>Running <code>core.use(title, view)</code> installs the list view API under <code>core.api.chats</code>.</p>
 <h4 id="exercise">Exercise</h4>
 <p>Look at the API for <code>kappa-view-list</code> and write code that will print out every name in the view, in alphabetical order.</p>
 <h4 id="tips">Tips</h4>
 <ul>
-<li>core.api.chats.createReadStream() will return a Readable stream of entries in the list.</li>
+<li>core.api.chats.read() will return a Readable stream of entries in the list.</li>
 <li>You can always append test data using a local feed:</li>
 </ul>
 <pre><code class="language-js">core.feed(&#39;local&#39;, function (err, feed) {
-  feed.append({type: &#39;chat-message&#39;, timestamp: new Date().toISOString() })
+    feed.append({type: &#39;chat-message&#39;, timestamp: new Date().toISOString() })
 })</code></pre>
-<p>Once you solve this exercise continue to <a href="11.html">exercise 11</a></p>
 </body></html>

@@ -655,7 +655,7 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="10a-introduction-to-views">10a: Introduction to Views</h3>
+}</style></head><body class="markdown-body"><h3 id="10a-introduction-to-kappa-architecture">10a: Introduction to Kappa Architecture</h3>
 <p>There seems to be a pattern emerging in the sort of code we&#39;re writing:</p>
 <ol>
 <li>write all data to append-only logs</li>
@@ -676,13 +676,12 @@ body { padding: 40px; }
 <h4 id="exercise">Exercise</h4>
 <p><a href="https://github.com/noffle/kappa-core">kappa-core</a> is a module that models a <em>kappa architecture</em> over <a href="https://github.com/noffle/multifeed">multifeed</a> and <a href="https://github.com/mafintosh/hypercore">hypercore</a>. kappa-core lets you read/write to append-only logs (just like multifeed), but also define <em>views</em> over that log data.</p>
 <p>This is how you create a kappa-core instance and write to a new feed:</p>
-<p><code>kapa-core</code> and <code>multifeed</code> databases are compatible, so we can use the same data we had before:</p>
+<p><code>kapa-core</code> and <code>multifeed</code> databases are compatible, so we can use the same data we had before. Start a new file, <code>kappa-chat.js</code>:</p>
 <pre><code class="language-js">var kappa = require(&#39;kappa-core&#39;)
 
 var core = kappa(&#39;./multichat&#39;, {valueEncoding: &#39;json&#39;})
 core.feed(&#39;local&#39;, function (err, feed) {
     // `feed` is just a hypercore instance, just like the first few exercises.
 })</code></pre>
-<p>This <code>core.feed</code> is essentially the same as <code>feed.ready</code>, but gets our <code>local</code> feed. You&#39;ll still have access to <code>feed.key</code> and <code>feed.discoveryKey</code> from here.</p>
-<p>Once you solve this exercise continue to <a href="10b.html">exercise 10b</a></p>
+<p>This <code>core.feed</code> is essentially the same as <code>multi.writer</code>, and gets our local writable feed. You&#39;ll still have access to <code>feed.key</code> and <code>feed.discoveryKey</code> from here.</p>
 </body></html>
