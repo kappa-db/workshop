@@ -17,3 +17,14 @@ multi.writer('local', function (err, feed) {
     })
   })
 })
+
+multi.ready(function () {
+  var feeds = multi.feeds()
+  feeds.forEach(function (feed) {
+    feed.createReadStream({live:true})
+      .on('data', function (data) {
+        console.log(data.timestamp + '> ' + data.text.trim())
+      })
+  })
+})
+
