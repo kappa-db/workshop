@@ -1,4 +1,4 @@
-<html><head><title>Problem 02</title><style>
+<html><head><title>Problem 04</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,18 +655,14 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="2-getting-the-dependencies">2 - Getting the dependencies</h3>
-<p>Awesome, let&#39;s get started.</p>
-<p>Each of the exercises today will be built on a data structure called an append-only log. An append-only log is like an list that you are only ever allowed to add entries to the end of, but can read from it at any index. Each entry is indexed from 0,1,2,3.. like an array. This number is called a <em>sequence number</em>. Combined with cryptographically signing each entry, these logs are very useful when building peer-to-peer applications as they are easy to share between multiple computers in a secure and efficient way.</p>
-<p>The append-only log we will be using for today&#39;s workshop exercises is called <strong>hypercore</strong>. Hypercore was written to be the main component of the <a href="https://datproject.org">Dat project</a> but as a completely independent data structure. A hypercore is also referred to as a <em>feed</em>. Each hypercore has a cryptographic <em>feed key</em>.</p>
-<p>You can read a lot more about Hypercore at <a href="https://github.com/mafintosh/hypercore">https://github.com/mafintosh/hypercore</a> or talk to one of the mentors.</p>
-<p>It&#39;s a good idea to keep the hypercore README open in a browser tab for the rest of the workshop.</p>
-<p>First to get started clone our gist that has a package.json with all the dependencies you will need for the workshop, including hypercore. In a terminal window, write</p>
-<pre><code>git clone https://gist.github.com/mafintosh/a642bf514cb6aa583fa8b1a6b1782f19 kappa-workshop</code></pre><p>Then move your terminal into the <code>kappa-workshop</code> folder with <code>cd kappa-workshop</code>.</p>
-<p>To install the dependencies run <code>npm install</code> which should install all of the modules specified in the package.json required for this workshop.</p>
-<p>To test that everything installed succesfully make a new file called hypercore.js with the content:</p>
-<pre><code class="language-js">var hypercore = require(&#39;hypercore&#39;)</code></pre>
+}</style></head><body class="markdown-body"><h3 id="4-poking-at-the-data">4 - Poking at the data</h3>
+<p>When you append data to the hypercore what happens behind the scenes is that hypercore produces a bunch of cryptographic hashes to build something called a merkle tree (ask a mentor if you are interested in this!). This is all needed so data can be shared securely in a p2p fashion so that no one can tamper with the data without us knowing it.</p>
+<p>In the end the data is actually just stored in normal files. You can actually just cat out the data file to see the data you appended.</p>
+<pre><code class="language-sh"># should print the data in the hypercore
+cat single-chat-feed/data</code></pre>
+<p>If you want to start over and reset your database all you need to do is remove the folder you are passing to the hypercore constructor - nice and simple :)</p>
 <h4 id="exercise">Exercise</h4>
-<p>Try running that file to see that it can load the installed Hypercore module. If no errors appear, then you have everything installed correctly!</p>
-<p>Once you solve this exercise continue to <a href="03.html">exercise 3</a></p>
+<p>Try catting the data file in the hypercore to see the actual data on disk.</p>
+<p>Try resetting the hypercore and re-running the solution from the previous exercise to see that the data gets rewritten.</p>
+<p>Once you solve this exercise continue to <a href="05.html">exercise 5</a></p>
 </body></html>
