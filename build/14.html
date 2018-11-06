@@ -1,4 +1,4 @@
-<html><head><title>Problem 09</title><style>
+<html><head><title>Problem 14</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,21 +655,41 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="9-reading-feed-data-from-multifeed">9: Reading feed data from multifeed</h3>
-<p>Now that we have created a multifeed, each <code>hypercore</code>  represents a different user in the application. When we replicate with another multifeed peer, we download their feeds and upload ours.</p>
-<p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
-<pre><code class="language-js">multi.ready(function () {
-  var feeds = multi.feeds()
-  feeds.forEach(function (feed) {
-    // feed is a hypercore! (remember reading from hypercores in previous exercises?)
-  })
-})</code></pre>
+}</style></head><body class="markdown-body"><h3 id="14-key-value-view">14: Key-value view</h3>
+<p>Another type of view is a key-value store, with a twist: keys can resolve to multiple values. This is because of the decentralized nature of the data. If two users write to the key <code>foo</code> while offline, then sync to eachother, they will see <em>both</em> of their entries under <code>foo</code> afterwards.</p>
+<p>This type of key-value store tracks &quot;links&quot; on each message. The idea is that each message includes a list of message IDs of values that came before it, for the same key. Usually &quot;feed-id@seq-num&quot; is the message ID used. Here is an example of three messages that form a key-value store&#39;s history:</p>
+<pre><code class="language-js">// feed.key.toString(&#39;hex&#39;) = 61f6a31961939bc03fdfdba661a15
+[
+  {
+    key: &#39;61f6a31961939bc03fdfdba661a15&#39;,
+    seq: 0,
+    value: {
+      key: &#39;foo&#39;,
+      value: &#39;bar&#39;,
+      links: []
+    }
+  },
+  {
+    key: &#39;61f6a31961939bc03fdfdba661a15&#39;,
+    seq: 1,
+    value: {
+      key: &#39;foo&#39;,
+      value: &#39;test&#39;,
+      links: [&#39;61f6a31961939bc03fdfdba661a15@0&#39;]
+    }
+  },
+  {
+    key: &#39;61f6a31961939bc03fdfdba661a15&#39;,
+    seq: 2,
+    value: {
+      key: &#39;foo&#39;,
+      value: &#39;quux&#39;,
+      links: [&#39;61f6a31961939bc03fdfdba661a15@0&#39;]
+    }
+  }
+]</code></pre>
 <h4 id="exercise">Exercise</h4>
-<p>Using <code>console.log</code>, write all chat messages to the screen from every hypercore in the multifeed. Have it iterate over all chat messages from all hypercores.</p>
-<h4 id="tips">Tips</h4>
-<ul>
-<li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
-<li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
-</ul>
-<p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
+<p>If seq=1 and seq=2 link back to seq=0 on this feed, what value(s) would you expect to see for the key <code>foo</code>?</p>
+<p>Try writing a key-value view of your own with <a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a> with similar data to check your answer.</p>
+<p>Once you solve this exercise continue to <a href="15.html">exercise 15</a></p>
 </body></html>

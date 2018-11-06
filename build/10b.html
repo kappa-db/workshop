@@ -1,4 +1,4 @@
-<html><head><title>Problem 09</title><style>
+<html><head><title>Problem 10b</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,21 +655,36 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="9-reading-feed-data-from-multifeed">9: Reading feed data from multifeed</h3>
-<p>Now that we have created a multifeed, each <code>hypercore</code>  represents a different user in the application. When we replicate with another multifeed peer, we download their feeds and upload ours.</p>
-<p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
-<pre><code class="language-js">multi.ready(function () {
-  var feeds = multi.feeds()
-  feeds.forEach(function (feed) {
-    // feed is a hypercore! (remember reading from hypercores in previous exercises?)
-  })
-})</code></pre>
+}</style></head><body class="markdown-body"><h3 id="10b-building-views">10b: Building Views</h3>
+<p>We&#39;re going to set up a kappa architecture and a view for sorting messages by timestamp.</p>
+<p>There are some pre-made general purpose views built on kappa-core, like a <em>key-value store</em> (<a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a>) and a <em>sorted list</em> (<a href="https://github.com/noffle/kappa-view-list">kappa-view-list</a>).</p>
+<p>Here is an example of a <em>sorted list view</em> that sorts a message&#39;s <code>timestamp</code> field alphabetically. <code>kappa-view-list</code> sorts lexigraphically by default.</p>
+<pre><code class="language-js">var kappa = require(&#39;kappa-core&#39;)
+var ram = require(&#39;random-access-memory&#39;)
+var memdb = require(&#39;memdb&#39;)
+var list = require(&#39;kappa-view-list&#39;)
+
+var timestampView = list(memdb(), function (msg, next) {
+  if (msg.value.timestamp &amp;&amp; typeof msg.value.timestamp === &#39;string&#39;) {
+    // sort on the &#39;timestamp&#39; field
+    next(null, [msg.value.timestamp])
+  } else {
+    next()
+  }
+})
+
+var core = kappa(ram, {valueEncoding: &#39;json&#39;})
+core.use(&#39;chats&#39;, timestampView)</code></pre>
+<p>Running <code>core.use(title, view)</code> installs the list view API under <code>core.api.chats</code>.</p>
 <h4 id="exercise">Exercise</h4>
-<p>Using <code>console.log</code>, write all chat messages to the screen from every hypercore in the multifeed. Have it iterate over all chat messages from all hypercores.</p>
+<p>Look at the API for <code>kappa-view-list</code> and write code that will print out every name in the view, in alphabetical order.</p>
 <h4 id="tips">Tips</h4>
 <ul>
-<li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
-<li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
+<li>core.api.chats.createReadStream() will return a Readable stream of entries in the list.</li>
+<li>You can always append test data using a local feed:</li>
 </ul>
-<p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
+<pre><code class="language-js">core.feed(&#39;local&#39;, function (err, feed) {
+  feed.append({type: &#39;chat-message&#39;, timestamp: new Date().toISOString() })
+})</code></pre>
+<p>Once you solve this exercise continue to <a href="11.html">exercise 11</a></p>
 </body></html>

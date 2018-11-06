@@ -1,4 +1,4 @@
-<html><head><title>Problem 09</title><style>
+<html><head><title>Problem 15</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,21 +655,18 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="9-reading-feed-data-from-multifeed">9: Reading feed data from multifeed</h3>
-<p>Now that we have created a multifeed, each <code>hypercore</code>  represents a different user in the application. When we replicate with another multifeed peer, we download their feeds and upload ours.</p>
-<p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
-<pre><code class="language-js">multi.ready(function () {
-  var feeds = multi.feeds()
-  feeds.forEach(function (feed) {
-    // feed is a hypercore! (remember reading from hypercores in previous exercises?)
-  })
-})</code></pre>
+}</style></head><body class="markdown-body"><h3 id="15-player-movement-messages">15: Player movement messages</h3>
+<p>What if each player controlled a character that they could move around the screen, as well as the chat interface?</p>
+<p>Use your knowledge of key-value views to track the x/y coordinates of each player. Choose a message type for these messages; we suggest</p>
+<pre><code class="language-js">{
+  type: &#39;player-movement&#39;,
+  x: Number,
+  y: Number
+}</code></pre>
 <h4 id="exercise">Exercise</h4>
-<p>Using <code>console.log</code>, write all chat messages to the screen from every hypercore in the multifeed. Have it iterate over all chat messages from all hypercores.</p>
-<h4 id="tips">Tips</h4>
-<ul>
-<li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
-<li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
-</ul>
-<p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
+<ol>
+<li>Write a function that take an X and Y coordinate publishes messages of this type to your local feed.</li>
+<li>Try writing a kappa-view-kv view that lets you get a player&#39;s most recent x/y coordinate. (HINT: use their <code>feed.key.toString(&#39;hex&#39;)</code> as a key!)</li>
+</ol>
+<p>Once you solve this exercise continue to <a href="16.html">exercise 16</a></p>
 </body></html>

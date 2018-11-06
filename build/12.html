@@ -1,4 +1,4 @@
-<html><head><title>Problem 09</title><style>
+<html><head><title>Problem 12</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,21 +655,54 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="9-reading-feed-data-from-multifeed">9: Reading feed data from multifeed</h3>
-<p>Now that we have created a multifeed, each <code>hypercore</code>  represents a different user in the application. When we replicate with another multifeed peer, we download their feeds and upload ours.</p>
-<p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
-<pre><code class="language-js">multi.ready(function () {
-  var feeds = multi.feeds()
-  feeds.forEach(function (feed) {
-    // feed is a hypercore! (remember reading from hypercores in previous exercises?)
-  })
-})</code></pre>
+}</style></head><body class="markdown-body"><h3 id="12-building-a-game">12: Building a Game</h3>
+<p>Now you&#39;ve built a simple chat application :star:! In the next section, we will extend our chat application with more views to create a peer-to-peer game.</p>
+<p>Eventually we&#39;d like to add movable characters to the game, so it would be nice if the chat messages only took up a fixed portion along the bottom of the screen.</p>
+<p>Two useful modules for managing a fullscreen terminal app&#39;s UI are <a href="https://github.com/neat-log/neat-log">neat-log</a> and <a href="https://github.com/noffle/txt-blit">txt-blit</a>. Both should already be installed in your workshop folder.</p>
+<p>Here is an example terminal app that draws the text <code>HELLO WORLD</code> animated in the middle of the screen:</p>
+<pre><code class="language-js">// ui.js
+
+var neatLog = require(&#39;neat-log&#39;)
+var blit = require(&#39;txt-blit&#39;)
+
+var neat = neatLog(view, { fullscreen: true })
+neat.use(mainloop)
+
+var termWidth = process.stdout.columns
+var termHeight = process.stdout.rows
+
+function view (state) {
+  var screen = []
+
+  var x = Math.floor(termWidth / 2) + state.xOffset
+  var y = Math.floor(termHeight / 2)
+  blit(screen, [&#39;HELLO WORLD&#39;], x, y)
+
+  return screen.join(&#39;\n&#39;)
+}
+
+function mainloop (state, bus) {
+  state.xOffset = 0
+  setInterval(function () {
+    state.xOffset = Math.floor(Math.sin(new Date().getTime() / 500) * 20)
+    bus.emit(&#39;render&#39;)
+  }, 5)
+}</code></pre>
+<p>A common neat-log/txt-blit pattern is to write drawing functions that take a width and height parameter, that you can then draw to any dimensions.</p>
+<p>For example, here is a draw function that returns a filled box of the given width/height:</p>
+<pre><code class="language-js">function drawFilledBox (w, h) {
+    var across = new Array(w).fill(&#39;#&#39;).join(&#39;&#39;)
+    var down = new Array(h).fill(across)
+    return down
+}</code></pre>
 <h4 id="exercise">Exercise</h4>
-<p>Using <code>console.log</code>, write all chat messages to the screen from every hypercore in the multifeed. Have it iterate over all chat messages from all hypercores.</p>
+<p>Paste this into your code and call it in <code>view</code> using <code>blit(screen, drawFilledBox(10, 5), 0, 0)</code> to start.</p>
+<p>Now, modify the function to draw the <em>outline</em> of a box (no text on the inside of the box; just the edges). This will become the border around the chat messages we&#39;ll draw next!</p>
+<p>Next, modify the <code>blit()</code> call to draw the box so it fills the last 10 rows of the screen, and fills the full width of the screen.</p>
 <h4 id="tips">Tips</h4>
 <ul>
-<li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
-<li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
+<li>Check out the <a href="https://github.com/neat-log/neat-log">neat-log</a> and <a href="https://github.com/noffle/txt-blit">txt-blit</a> READMEs to try and understand what&#39;s going on.</li>
+<li><code>process.stdout.columns</code> and <code>process.stdout.rows</code> give the current size of the terminal.</li>
 </ul>
-<p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
+<p>Once you solve this exercise continue to <a href="13.html">exercise 13</a></p>
 </body></html>

@@ -1,4 +1,4 @@
-<html><head><title>Problem 09</title><style>
+<html><head><title>Problem 13</title><style>
 body { padding: 40px; }
 @font-face {
   font-family: octicons-anchor;
@@ -655,21 +655,14 @@ body { padding: 40px; }
   z-index: 1;
   position: relative;
   border-color: #4078c0;
-}</style></head><body class="markdown-body"><h3 id="9-reading-feed-data-from-multifeed">9: Reading feed data from multifeed</h3>
-<p>Now that we have created a multifeed, each <code>hypercore</code>  represents a different user in the application. When we replicate with another multifeed peer, we download their feeds and upload ours.</p>
-<p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
-<pre><code class="language-js">multi.ready(function () {
-  var feeds = multi.feeds()
-  feeds.forEach(function (feed) {
-    // feed is a hypercore! (remember reading from hypercores in previous exercises?)
-  })
-})</code></pre>
+}</style></head><body class="markdown-body"><h3 id="13-dynamic-chat-window">13: Dynamic chat window</h3>
+<p>Now you should have an empty box drawing in <code>ui.js</code> <em>and</em> a hypercore that you can read chat messages from. Let&#39;s combine them!</p>
 <h4 id="exercise">Exercise</h4>
-<p>Using <code>console.log</code>, write all chat messages to the screen from every hypercore in the multifeed. Have it iterate over all chat messages from all hypercores.</p>
+<p>See if you can get the chat window to fill itself with the last 9 messages from the hypercore.</p>
 <h4 id="tips">Tips</h4>
 <ul>
-<li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
-<li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
+<li><code>createReadStream</code> takes a <code>start</code> and <code>end</code> parameter, and each hypercore has a <code>length</code> property.</li>
+<li>you can asynchronously populate <code>state</code> in the <code>mainloop</code> function.</li>
 </ul>
-<p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
+<p>Once you solve this exercise continue to <a href="14.html">exercise 14</a></p>
 </body></html>
