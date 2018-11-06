@@ -8,6 +8,7 @@ var kv = require('kappa-view-kv')
 var list = require('kappa-view-list')
 var ram = require('random-access-memory')
 var discovery = require('discovery-swarm')
+var pump = require('pump')
 
 var positionView = kv(memdb(), function (msg, next) {
   if (msg.value.type !== 'move-player') return next()
@@ -36,8 +37,7 @@ swarm.listen(4000 + Math.floor(Math.random() * 1000))
 swarm.join('p2p-game-ireland')
 swarm.on('connection', function (peer) {
   var r = core.replicate()
-  r.pipe(peer).pipe(r)
-  r.on('error', function () {})
+  pump(r, peer, r)
 })
 
 // start the local player at 15,6, if their feed is empty
