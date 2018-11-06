@@ -1,0 +1,2 @@
+var hypercore = require('hypercore')
+
