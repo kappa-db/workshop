@@ -29,3 +29,8 @@ Yes! From [researchers in universities](http://datproject.org) all the way to th
 #### OK, I'm ready
 
 [Get started](https://noffle.github.io/kappa-arch-workshop/build/01.html)
+
+# License
+
+[CC-BY-SA](https://creativecommons.org/licenses/by-sa/2.0/)
+
