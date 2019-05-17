@@ -32,12 +32,14 @@ core.use('pos', positionView)
 core.use('chat', chatView)
 
 // search the local network + internet for peers
-var swarm = discovery()
-swarm.listen(4000 + Math.floor(Math.random() * 1000))
-swarm.join('p2p-game-ireland')
-swarm.on('connection', function (peer) {
-  var r = core.replicate()
-  pump(r, peer, r)
+core.ready(function () {
+  var swarm = discovery()
+  swarm.listen(4000 + Math.floor(Math.random() * 1000))
+  swarm.join('p2p-game-ireland')
+  swarm.on('connection', function (peer) {
+    var r = core.replicate()
+    pump(r, peer, r)
+  })
 })
 
 // start the local player at 15,6, if their feed is empty
