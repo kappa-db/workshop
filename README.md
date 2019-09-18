@@ -1,5 +1,7 @@
 # kappa architecture workshop
 
+by (in no particular order): [noffle](https://github.com/noffle), [okdistribute](https://github.com/okdistribute), and [mafintosh](https://github.com/mafintosh) 
+
 A small series of workshops to introduce kappa architecture and how to build p2p programs with modules like hypercore, multifeed, and kappa-core.
 
 #### What is "peer-to-peer"?
