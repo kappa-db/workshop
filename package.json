@@ -1,26 +1,22 @@
 {
-  "name": "kappa-arch-workshop",
+  "name": "kappa-workshop",
   "description": "",
-  "author": "Stephen Whitmore <sww@eight.net>",
   "version": "0.0.0",
   "repository": {
-    "url": "git://github.com/noffle/kappa-arch-workshop.git"
+    "url": "git://github.com/kappa-db/workshop.git"
   },
-  "homepage": "https://github.com/noffle/kappa-arch-workshop",
-  "bugs": "https://github.com/noffle/kappa-arch-workshop/issues",
+  "homepage": "https://github.com/kappa-db/workshop",
   "main": "index.js",
-  "scripts": {
-    "test": "tape test/*.js",
-    "lint": "standard"
-  },
   "keywords": [],
   "dependencies": {
-    "chalk": "^2.4.1",
-    "discovery-swarm": "^5.1.2",
-    "kappa-core": "^2.3.2",
-    "kappa-view-kv": "^2.0.1",
-    "kappa-view-list": "^1.1.1",
+    "chalk": "^3.0.0",
+    "discovery-swarm": "^6.0.0",
+    "hypercore": "^7.7.1",
+    "kappa-core": "^4.0.1",
+    "kappa-view-kv": "^2.0.2",
+    "kappa-view-list": "^1.1.2",
     "memdb": "^1.3.1",
+    "multifeed": "^4.1.10",
     "neat-log": "^3.1.0",
     "pump": "^3.0.0",
     "random-access-memory": "^3.0.0",
@@ -28,9 +24,9 @@
   },
   "devDependencies": {
     "marked": "^0.5.1",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.0",
     "standard": "~10.0.0",
-    "tape": "~4.6.2"
+    "tape": "^4.11.0"
   },
   "license": "CC-BY-SA"
 }

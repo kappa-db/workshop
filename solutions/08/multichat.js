@@ -3,7 +3,14 @@ var hypercore = require('hypercore')
 var multifeed = require('multifeed')
 var pump = require('pump')
 
-var multi = multifeed(hypercore, './multichat', {
+if (process.argv.length !== 3) {
+  console.log('USAGE: "node multifeed.js 1" or "node multifeed.js 2"')
+  process.exit(1)
+  return
+}
+var num = process.argv[2]
+
+var multi = multifeed(hypercore, './multichat_' + num, {
   valueEncoding: 'json'
 })
 

@@ -37,6 +37,8 @@ feed.createReadStream({live:true})
 var swarm = discovery()
 
 feed.ready(function () {
+  console.log(feed.key.toString('hex'))
+
   // we use the discovery as the topic
   swarm.join(feed.discoveryKey)
   swarm.on('connection', function (connection) {
