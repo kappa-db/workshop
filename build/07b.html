@@ -667,7 +667,7 @@ body {
 </style></head><body class="markdown-body"><h3 id="7b-replication">7b - Replication</h3>
 <p>We can use the things we learned about hypercore keys and swarms to start sharing our chat feed with other people now. Since only the process with the secret key can write to the chat feed we wanna make a simple chat viewer that will just print out replicated chat messages.</p>
 <p>Copy the following snippet and save it as <em>single-chat-viewer.js</em></p>
-<pre><code class="language-js">var discovery = require(&#39;discovery-swarm&#39;)
+<pre><code class="language-js">var hyperswarm = require(&#39;hyperswarm&#39;)
 var hypercore = require(&#39;hypercore&#39;)
 var pump = require(&#39;pump&#39;)
 
@@ -680,12 +680,12 @@ feed.createReadStream({ live: true})
     console.log(data)
   })
 
-var swarm = discovery()
+var swarm = hyperswarm()
 
 feed.ready(function () {
   // we use the discovery as the topic
   swarm.join(feed.discoveryKey)
-  swarm.on(&#39;connection&#39;, function (connection, info) {
+  swarm.on(&#39;connection&#39;, function (socket, details) {
     console.log(&#39;(New peer connected!)&#39;)
 
     // We use the pump module instead of stream.pipe(otherStream)
@@ -693,7 +693,7 @@ feed.ready(function () {
     // manually.
 
     // See below for more detail on how this work.
-    pump(connection, feed.replicate(info.initiator, { live: true }), connection)
+    pump(socket, feed.replicate(info.initiator, { live: true }), socket)
   })
 })</code></pre>
 <p>The hypercore API <code>feed.replicate(isInitiator, opts)</code> returns a Duplex stream, a special type of node stream that can be both read from and written to. If you <code>pump</code> the feed replication streams together, they automatically synchronize themselves so that they both end up with the same data on each side.</p>
@@ -705,10 +705,8 @@ and use that to find other chat peers. However, it won&#39;t work if you run it 
 <p>Running both <em>single-chat.js</em> and <em>single-chat-viewer.js</em> should live replicate the messages between the two terminals.</p>
 <h4 id="more-resources">More Resources</h4>
 <ul>
-<li><a href="https://github.com/karissa/hyperdiscovery">hyperdiscovery</a> for an easy api for joining the swarm of a hypercore or hyperdrive</li>
-<li><a href="https://github.com/mafintosh/hyperswarm">hyperswarm</a> for an experimental mdns swarm with a shared distributed state.</li>
+<li><a href="https://github.com/hyperswarm/replicator">@hyperswarm/replicator</a> for an easy api for joining the swarm of a hypercore </li>
 <li><a href="https://github.com/pfrazee/dat-gateway">dat-gateway</a> for HTTP server for hypercores </li>
-<li><a href="https://github.com/geut/discovery-swarm-webrtc">discovery-swarm-webrtc</a> for discovering peers on webrtc</li>
 </ul>
 <p>Once you solve this exercise continue to <a href="08.html">exercise 8</a></p>
 </body></html>

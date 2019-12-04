@@ -703,7 +703,7 @@ for hypercore for ideas on how to do this.</p>
 <h4 id="tricky-bits">Tricky bits</h4>
 <ul>
 <li>replication will need to use <code>multi.replicate</code> instead of the old <code>feed.replicate</code>: multifeed will handle replicating <em>all feeds</em> for you.</li>
-<li>wait for <code>multi.writer</code>&#39;s callback to be called before starting the discovery-swarm (it needs all feeds to be set up before replicating)</li>
+<li>wait for <code>multi.writer</code>&#39;s callback to be called before starting the hyperswarm (it needs all feeds to be set up before replicating)</li>
 <li>choose a new, arbitrary key for swarming, e.g. <code>swarm.join(&#39;foobar-123&#39;)</code></li>
 <li>if running <code>node multichat.js</code> in two separate windows, each process must be using <em>a different database</em>. A good trick is to do something like this during multifeed creation:</li>
 </ul>
