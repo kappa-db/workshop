@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -672,15 +673,17 @@ body {
 </ol>
 <p>There is a major gap in our code though if we&#39;d like to make a chat program: <em>with hypercore, there can only be <strong>one</strong> writer!</em></p>
 <p>Well, what if each user had their own hypercore? Then we could view their contents together to see all of the chat history as other people are writing.</p>
-<p>This was the motivation behind <a href="https://github.com/noffle/multifeed">multifeed</a>, a module that lets you operate on a <em>set of hypercores</em>, and create a replication stream, in the same way that you replicated hypercores in the last exercise.</p>
+<p>This was the motivation behind <a href="https://github.com/kappa-db/multifeed">multifeed</a>, a module that lets you operate on a <em>set of hypercores</em>, and create a replication stream, in the same way that you replicated hypercores in the last exercise.</p>
 <h4 id="exercise">Exercise</h4>
 <p>Make a copy of <code>single-chat.js</code> called <code>multichat.js</code>, and replace usage of <code>hypercore</code> with <code>multifeed</code>. Here is how to create a multifeed, a new writer, and write to that feed:</p>
 <pre><code class="language-js">var hypercore = require(&#39;hypercore&#39;)
 var multifeed = require(&#39;multifeed&#39;)
 
-var multi = multifeed(hypercore, &#39;./multichat&#39;, {valueEncoding:&#39;json&#39;})
+var multi = multifeed(&#39;./multichat&#39;, {valueEncoding:&#39;json&#39;})
 
 multi.writer(&#39;local&#39;, function (err, feed) {
+  // TODO: join swarm
+
   // &#39;feed&#39; is a hypercore, just like before
   // except now we can manage many of them together!
   feed.append({ 
@@ -692,18 +695,21 @@ multi.writer(&#39;local&#39;, function (err, feed) {
     if (err) throw err
     console.log(&#39;Data was appended as entry #&#39; + seq)
   })
-
 })</code></pre>
-<p>You can look at <a href="https://github.com/noffle/kappa-arch-workshop/blob/master/solutions/08/multichat.js">the previous solution converted to multifeed</a> to start from.</p>
+<p>See if you can also add peer discovery and replication to this. Just like
+hypercore, multifeed has a <code>multi.replicate()</code> API that lets two peers sync
+their data over a duplex stream. Look back at how you set you peer discovery
+for hypercore for ideas on how to do this.</p>
 <h4 id="tricky-bits">Tricky bits</h4>
 <ul>
 <li>replication will need to use <code>multi.replicate</code> instead of the old <code>feed.replicate</code>: multifeed will handle replicating <em>all feeds</em> for you.</li>
+<li>wait for <code>multi.writer</code>&#39;s callback to be called before starting the discovery-swarm (it needs all feeds to be set up before replicating)</li>
 <li>choose a new, arbitrary key for swarming, e.g. <code>swarm.join(&#39;foobar-123&#39;)</code></li>
 <li>if running <code>node multichat.js</code> in two separate windows, each process must be using <em>a different database</em>. A good trick is to do something like this during multifeed creation:</li>
 </ul>
 <pre><code class="language-js">var suffix = process.argv[2]
 
-var multi = multifeed(hypercore, &#39;./multichat-&#39; + suffix, {valueEncoding:&#39;json&#39;})</code></pre>
+var multi = multifeed(&#39;./multichat-&#39; + suffix, {valueEncoding:&#39;json&#39;})</code></pre>
 <p>This way, you can run <code>node multichat.js 1</code> in one window, and <code>node multichat.js 2</code> in the other window. If you try to run two processes that open the same multifeed database, things won&#39;t work!</p>
 <h4 id="tips">Tips</h4>
 <ul>

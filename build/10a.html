@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -684,13 +685,14 @@ body {
 <h4 id="exercise">Exercise</h4>
 <p><a href="https://github.com/noffle/kappa-core">kappa-core</a> is a module that models a <em>kappa architecture</em> over <a href="https://github.com/noffle/multifeed">multifeed</a> and <a href="https://github.com/mafintosh/hypercore">hypercore</a>. kappa-core lets you read/write to append-only logs (just like multifeed), but also define <em>views</em> over that log data.</p>
 <p>This is how you create a kappa-core instance and write to a new feed:</p>
-<p><code>kapa-core</code> and <code>multifeed</code> databases are compatible, so we can use the same data we had before. Start a new file, <code>kappa-chat.js</code>:</p>
+<p>The kappa-core and multifeed databases are compatible, so we can use the same data we had before. Start a new file, _kappa-chat.js_, and enter the following:</p>
 <pre><code class="language-js">var kappa = require(&#39;kappa-core&#39;)
 
 var core = kappa(&#39;./multichat&#39;, {valueEncoding: &#39;json&#39;})
-core.feed(&#39;local&#39;, function (err, feed) {
+core.writer(&#39;local&#39;, function (err, feed) {
     // `feed` is just a hypercore instance, just like the first few exercises.
 })</code></pre>
-<p>This <code>core.feed</code> is essentially the same as <code>multi.writer</code>, and gets our local writable feed. You&#39;ll still have access to <code>feed.key</code> and <code>feed.discoveryKey</code> from here.</p>
+<p>Try to print the feed&#39;s <code>key</code> field. Use <code>key.toString(&#39;hex&#39;)</code> to see it as a hexidecimal string. Is it different or the same each time you run this?</p>
+<p>This <code>core.feed</code> is essentially the same as <code>multi.writer</code> and initialises a local writable feed. You&#39;ll still have access to <code>feed.key</code> and <code>feed.discoveryKey</code> from here.</p>
 <p>Once you solve this exercise continue to <a href="10b.html">exercise 10b</a></p>
 </body></html>

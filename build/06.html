@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -671,7 +672,7 @@ body {
 <ol>
 <li>Search the local network. <code>discovery-channel</code> uses a module called <a href="https://github.com/mafintosh/dns-discovery">&#39;dns-discovery&#39;</a> that has the ability to make queries in the local network using multicast dns (MDNS).</li>
 <li>Search the internet using a well-known server. The next phase is to search using dns, also with <code>dns-discovery</code>.</li>
-<li>If these methods fail, it looks in a DHT (<em>distributed hashtable</em>). For this, <code>discovery-channel</code> uses <a href="https://github.com/webtorrent/bittorrent-dht">bittorrent-dht</a>.</li>
+<li>If these methods fail, it looks in a DHT (_distributed hashtable_). For this, <code>discovery-channel</code> uses <a href="https://github.com/webtorrent/bittorrent-dht">bittorrent-dht</a>.</li>
 </ol>
 <p>The third approach uses &quot;bootstrap nodes&quot;. The bootstrap nodes
 function like known <em>peers</em> beforehand, that we use to start to know others and

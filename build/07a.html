@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -664,24 +665,24 @@ body {
   border-color: #4078c0;
 }
 </style></head><body class="markdown-body"><h3 id="7a-replication-sharing-data-with-other-computers">7a: Replication: Sharing Data With Other Computers</h3>
-<p>Now to the fun part: let&#39;s share this hypercore of chat messages with another machine (or <strong>peer</strong>). Hypercore supports this, and calls the process of two machine exchanging messages of a feed <em>replication</em>.</p>
-<p><code>hypercore</code> and the whole Dat ecosystem uses asymmetric key encryption scheme to sign and encrypt all the data. This guarantees data integrity when we share data with another peer.</p>
-<p>So, let&#39;s dive deeper. There are 3 keys to have in mind with Hypercore :stars:</p>
+<p>Now to the fun part: let&#39;s share this hypercore of chat messages with another machine (or <strong>peer</strong>). Hypercore supports this, and calls the process of two machines exchanging the messages of a feed <strong>replication</strong>.</p>
+<p>Hypercore and the whole Dat ecosystem uses an <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">asymmetric key encryption</a> scheme to sign and encrypt all the data. This guarantees data integrity when we share data with another peer.</p>
+<p>So, let&#39;s dive deeper. There are 3 keys to keep in mind when using hypercore:</p>
 <h4 id="public-key-">Public Key 🔑</h4>
 <p>This key is <strong>globally unique</strong>.</p>
 <p>It is used to identify our feed publicly, and also allows us to verify that data has not been tampered with when replicating with peers we do not nessesarily trust.</p>
 <p>We can also encrypt a message using someone else&#39;s public key so that nobody else but them can decrypt it.</p>
 <h4 id="secret-key-">Secret Key 🔐</h4>
-<p>In <code>hypercore</code>, only the feed <code>owner</code> (whoever has the secret key) can write to the log. This is kept only on the local machine and never shared with anyone.</p>
-<p>The secret key is used to decrypt messages encrypted to our public key, as well as for signing messages we&#39;ve written to prove we are the original author.</p>
+<p>In hypercore, only the feed’s <strong>owner</strong> (whoever has the secret key) can write to the log. This key is kept only on the person’s local machine and it is never shared with anyone.</p>
+<p>The secret key is used to decrypt messages encrypted with our public key, as well as for signing messages we&#39;ve written to prove that we are the original author.</p>
 <h4 id="discovery-key-">Discovery Key 🌍</h4>
-<p>We recognize our <code>feed</code> by its <em>unique</em> public key and allow only the peers who know this key to be able to exchange information.</p>
-<p>We might not want other parties to know our public key, since it uniquely identifies us. To avoid such a scenario, we can make use of another key, the <code>discovery key</code>. This is a <a href="https://en.wikipedia.org/wiki/Hash_function">hash</a> of the public key. This key is used to discover peers without leaking the public key.</p>
+<p>We recognize our <strong>feed</strong> by its <em>unique</em> public key and allow only those peers who know this key to be able to exchange information.</p>
+<p>We might not want other parties to know our public key, since it uniquely identifies us. So we make use of another key, derived via a one-way function from our public key, that we can freely share. This is called the <strong>discovery key</strong>. It is a <a href="https://en.wikipedia.org/wiki/Hash_function">hash</a> of the public key. This key is used to discover peers without leaking the public key.</p>
 <h4 id="hypercore-and-the-public-key">Hypercore and the Public Key</h4>
-<p>If someone gives us their public key, we&#39;d might like to be able to read their feed.</p>
+<p>If someone gives us their public key, we can read their feed.</p>
 <p>To achieve this, <code>hypercore</code> accepts a second parameter in its constructor:</p>
 <pre><code class="language-javascript">hypercore(&lt;storage&gt;, &lt;public key&gt;, &lt;options&gt;)</code></pre>
-<p>Each machine compares what parts of the hypercore they already have locally, and shares those parts that the other side is missing. This is how all peers in a p2p network can eventually converge on the same set of data, even if some peers are not always online.</p>
+<p>Each machine compares the parts of the hypercore they have locally to the full set of parts that are known to exist for that hypercore. They then proceed to ask for the parts they are missing from their peers. They also give back to the network by sharing those parts that they have locally but which other nodes are missing and have asked for. This is how all the peers in a P2P network can eventually converge on the same set of data, even if some of the peers are not always online.</p>
 <h4 id="exercise">Exercise</h4>
 <p>Let&#39;s look at these keys in your feed!</p>
 <p>Try extending <code>single-chat.js</code> to print them out:</p>

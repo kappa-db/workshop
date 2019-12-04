@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -668,8 +669,16 @@ body {
 <p><code>multifeed.feeds()</code> returns a list of feeds, which are just hypercore objects (ie. they each have a <code>createReadStream()</code> function)..</p>
 <pre><code class="language-js">multi.ready(function () {
   var feeds = multi.feeds()
+
+  // iterate over each feed that exists locally..
   feeds.forEach(function (feed) {
     // feed is a hypercore! (remember reading from hypercores in previous exercises?)
+    // TODO: feed.createReadStream
+  })
+
+  // listen for new feeds that might be shared with us during runtime..
+  multi.on(&#39;feed&#39;, function (feed) {
+    // TODO: feed.createReadStream
   })
 })</code></pre>
 <h4 id="exercise">Exercise</h4>
@@ -678,6 +687,7 @@ body {
 <ul>
 <li><code>feed.createReadStream(options)</code> has an option called <code>{live: true}</code>. If you set this, the stream will stay open and keep emitting new data as it is appended to the hypercore.</li>
 <li>You can always create more feeds locally by calling <code>multi.writer(function (err, feed) {})</code>.</li>
+<li>If friends near you are also doing this exercise, you can all use the same swarm key and chat with each other over the local network or internet!</li>
 </ul>
 <p>Once you solve this exercise continue to <a href="10a.html">exercise 10a</a></p>
 </body></html>
