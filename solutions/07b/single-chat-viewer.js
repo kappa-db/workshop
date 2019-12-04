@@ -1,4 +1,4 @@
-var discovery = require('discovery-swarm')
+var hyperswarm = require('hyperswarm')
 var hypercore = require('hypercore')
 var pump = require('pump')
 
@@ -11,19 +11,22 @@ feed.createReadStream({ live: true})
   .on('data', function (data) {
     console.log(data)
   })
- 
-var swarm = discovery()
+
+var swarm = hyperswarm()
 
 feed.ready(function () {
   // we use the discovery as the topic
-  swarm.join(feed.discoveryKey)
+  swarm.join(feed.discoveryKey, {
+    lookup: true, // find & connect to peers
+    announce: true // optional- announce self as a connection target
+  })
   swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
-    
+
     // We use the pump module instead of stream.pipe(otherStream)
     // as it does stream error handling, so we do not have to do that
     // manually.
-    
+
     // See below for more detail on how this work.
     pump(connection, feed.replicate(info.initiator, { live: true }), connection)
   })

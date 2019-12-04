@@ -1,19 +1,17 @@
-var discovery = require('discovery-swarm')
+const hyperswarm = require('hyperswarm')
 
-var swarm = discovery()
+const swarm = hyperswarm()
 
-swarm.join('my-p2p-app-noffle')
+var topic = Buffer.from('a49766a23610999dc5dfe05bc37cd98a9911d4b46bd25fc2cd037b9669a1e214', 'hex')
 
-// this event is fired every time you find and connect to a new peer also
-// on the same key
-swarm.on('connection', function (connection, info) {
-  // `info `is a simple object that describes the peer we connected to
-  console.log('found a peer', info)
-
-  connection.write('hello ' + info.host)
-
-  connection.on('data', function (buf) {
-    console.log(buf.toString())
-  })
+swarm.join(topic, {
+  lookup: true, // find & connect to peers
+  announce: true // optional- announce self as a connection target
 })
 
+swarm.on('connection', (socket, details) => {
+  console.log('new connection!', details)
+
+  // you can now use the socket as a stream, eg:
+  // process.stdin.pipe(socket).pipe(process.stdout)
+})
