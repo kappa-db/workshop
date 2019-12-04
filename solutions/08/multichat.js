@@ -10,7 +10,7 @@ if (process.argv.length !== 3) {
 }
 var num = process.argv[2]
 
-var multi = multifeed(hypercore, './multichat_' + num, {
+var multi = multifeed('./multichat_' + num, {
   valueEncoding: 'json'
 })
 
@@ -31,8 +31,8 @@ function startSwarm () {
   var key = 'multichat'
   var swarm = discovery()
   swarm.join(key)
-  swarm.on('connection', function (connection) {
+  swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
-    pump(connection, multi.replicate({ live: true }), connection)
+    pump(connection, multi.replicate(info.initiator, { live: true }), connection)
   })
 }

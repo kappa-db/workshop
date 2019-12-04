@@ -41,7 +41,7 @@ feed.ready(function () {
 
   // we use the discovery as the topic
   swarm.join(feed.discoveryKey)
-  swarm.on('connection', function (connection) {
+  swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
     
     // We use the pump module instead of stream.pipe(otherStream)
@@ -49,7 +49,7 @@ feed.ready(function () {
     // manually.
     
     // See below for more detail on how this work.
-    pump(connection, feed.replicate({ live: true }), connection)
+    pump(connection, feed.replicate(info.initiator, { live: true }), connection)
   })
 })
 

@@ -25,7 +25,7 @@ core.ready(function () {
 })
 
 process.stdin.on('data', function (data) {
-  core.feed('local', function (err, feed) {
+  core.writer('local', function (err, feed) {
     feed.append({
       type: 'chat-message',
       nickname: 'cat-lover',
