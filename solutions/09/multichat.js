@@ -1,4 +1,4 @@
-var discovery = require('discovery-swarm')
+var hyperswarm = require('hyperswarm')
 var hypercore = require('hypercore')
 var multifeed = require('multifeed')
 var pump = require('pump')
@@ -30,11 +30,14 @@ multi.writer('local', function (err, feed) {
 
 function startSwarm () {
   var key = 'multichat'
-  var swarm = discovery()
-  swarm.join(key)
+  var swarm = hyperswarm()
+  swarm.join(key, {
+    lookup: true, // find & connect to peers
+    announce: true // optional- announce self as a connection target
+  })
   swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
-    pump(connection, multi.replicate(info.initiator, { live: true }), connection)
+    pump(connection, multi.replicate(info.client, { live: true }), connection)
   })
 }
 
