@@ -23,7 +23,7 @@
     "txt-blit": "^1.0.0"
   },
   "devDependencies": {
-    "marked": "^0.5.1",
+    "marked": "^0.7.0",
     "rimraf": "^3.0.0",
     "standard": "^14.3.1",
     "tape": "^4.11.0"
