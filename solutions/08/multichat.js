@@ -36,6 +36,6 @@ function startSwarm () {
   })
   swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
-    pump(connection, multi.replicate(info.initiator, { live: true }), connection)
+    pump(connection, multi.replicate(info.client, { live: true }), connection)
   })
 }

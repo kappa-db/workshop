@@ -2,8 +2,7 @@ var hyperswarm = require('hyperswarm')
 var hypercore = require('hypercore')
 var pump = require('pump')
 
-// var feed = hypercore('./single-chat-feed-clone', '{paste the public key from the prev exercise}', {
-var feed = hypercore('./single-chat-feed-clone', '279aeeceeb0572a15ab03056b7de9bb7dbbb19bdb39ad29cd8a7802fcd2e5c53', {
+var feed = hypercore('./single-chat-feed-clone', 'dd5bd9ef129b88cd5305804be1f87cbbbdbf01fdbd4c235683a8d34723db2b89', {
   valueEncoding: 'json'
 })
 
@@ -28,7 +27,7 @@ feed.ready(function () {
     // manually.
 
     // See below for more detail on how this work.
-    pump(connection, feed.replicate(info.initiator, { live: true }), connection)
+    pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
 

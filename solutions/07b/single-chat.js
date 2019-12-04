@@ -52,7 +52,8 @@ feed.ready(function () {
     // manually.
 
     // See below for more detail on how this work.
-    pump(connection, feed.replicate(info.initiator, { live: true }), connection)
+    console.log('info', info)
+    pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
 
