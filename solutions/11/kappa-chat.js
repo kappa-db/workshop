@@ -18,8 +18,8 @@ core.use('chats', timestampView)
 core.ready(function () {
   core.api.chats.tail(10, function (msgs) {
     console.log('--------------')
-    msgs.forEach(function (msg) {
-      console.log(msg.value.timestamp + '> ' + msg.value.text.trim())
+    msgs.forEach(function (msg, i) {
+      console.log(`${i + 1} - ${msg.value.timestamp}: ${msg.value.text}`)
     })
   })
 })
@@ -29,7 +29,7 @@ process.stdin.on('data', function (data) {
     feed.append({
       type: 'chat-message',
       nickname: 'cat-lover',
-      text: data.toString(),
+      text: data.toString().trim(),
       timestamp: new Date().toISOString()
     })
   })
