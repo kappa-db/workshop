@@ -1,6 +1,7 @@
 var hyperswarm = require('hyperswarm')
 var hypercore = require('hypercore')
 var multifeed = require('multifeed')
+var crypto = require('crypto')
 var pump = require('pump')
 
 if (process.argv.length !== 3) {
@@ -10,12 +11,17 @@ if (process.argv.length !== 3) {
 }
 var num = process.argv[2]
 
+// Creating topic
+const topicHex = crypto.createHash('sha256')
+		       .update('foobar-123')
+		       .digest()
+
 var multi = multifeed('./multichat_' + num, {
   valueEncoding: 'json'
 })
 
 multi.writer('local', function (err, feed) {
-  startSwarm()
+  startSwarm(topicHex)
 
   process.stdin.on('data', function (data) {
     feed.append({
@@ -27,10 +33,9 @@ multi.writer('local', function (err, feed) {
   })
 })
 
-function startSwarm () {
-  var key = 'multichat'
+function startSwarm (topic) {
   var swarm = discovery()
-  swarm.join(key, {
+  swarm.join(topic, {
     lookup: true, // find & connect to peers
     announce: true // optional- announce self as a connection target
   })
