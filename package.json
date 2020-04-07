@@ -10,6 +10,7 @@
   "keywords": [],
   "dependencies": {
     "chalk": "^3.0.0",
+    "crypto": "^1.0.1",
     "discovery-swarm": "^6.0.0",
     "hypercore": "^8.3.0",
     "hyperswarm": "^2.10.1",
