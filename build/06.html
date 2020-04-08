@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -665,31 +666,36 @@ body {
 }
 </style></head><body class="markdown-body"><h3 id="6-networking-with-other-peers">6: Networking with other peers</h3>
 <p>Great, we now how a working chat app however it is not that interesting yet. First of all we can only chat with ourself and even worse we can only see the data in the same process we are writing. Kinda boring.</p>
-<p>Since we are doing a P2P workshop we want to make P2P network connections with each other. Contrary to how we build HTTP services we don&#39;t really have a client/server model in P2P. Instead we have what is called a &quot;swarm&quot;. A swarm is just a collection of network connections connecting us to various users all interested in a specific topic.</p>
-<p>To achieve this, we&#39;ll use a module called <a href="https://github.com/mafintosh/discovery-swarm"><code>discovery-swarm</code></a> which in turn uses <a href="https://github.com/maxogden/discovery-channel"><code>discovery-channel</code></a>.</p>
-<p>This module has three strategies to connect the <em>swarm</em> of peers:</p>
+<p>Since we are doing a P2P workshop we want to make P2P network connections with each other. Contrary to how we build HTTP services we don&#39;t really have a client/server model in P2P. Instead we have what is called a &quot;swarm&quot;. A swarm is just a collection of network sockets connecting us to various users all interested in a specific topic.</p>
+<p>To achieve this, we&#39;ll use a module called <a href="https://github.com/hyperswarm"><code>hyperswarm</code></a>. This module has three strategies to connect the <em>swarm</em> of peers:</p>
 <ol>
-<li>Search the local network. <code>discovery-channel</code> uses a module called <a href="https://github.com/mafintosh/dns-discovery">&#39;dns-discovery&#39;</a> that has the ability to make queries in the local network using multicast dns (MDNS).</li>
+<li>Search the local network. It makes queries in the local network using multicast dns (MDNS).</li>
 <li>Search the internet using a well-known server. The next phase is to search using dns, also with <code>dns-discovery</code>.</li>
-<li>If these methods fail, it looks in a DHT (<em>distributed hashtable</em>). For this, <code>discovery-channel</code> uses <a href="https://github.com/webtorrent/bittorrent-dht">bittorrent-dht</a>.</li>
+<li>If these methods fail, it looks in a DHT (_distributed hashtable_). </li>
 </ol>
 <p>The third approach uses &quot;bootstrap nodes&quot;. The bootstrap nodes
 function like known <em>peers</em> beforehand, that we use to start to know others and
 like this form our own <em>swarm</em>. In other words, we need to know someone to enter the network. Unlike centralized services, anybody can provide these bootstrap peers, and they don&#39;t need to ever see our data.</p>
-<p>You give <a href="https://github.com/mafintosh/discovery-swarm">discovery-swarm</a> a unique key that other peers using your app can use to locate each other.</p>
+<p>You give hyperswarm a unique key that other peers using your app can use to locate each other.</p>
 <h3 id="exercise">Exercise</h3>
 <p>Create a <code>discovery.js</code> file:</p>
-<pre><code class="language-js">var discovery = require(&#39;discovery-swarm&#39;)
+<pre><code class="language-js">var hyperswarm = require(&#39;hyperswarm&#39;)
 
-var swarm = discovery()
+var swarm = hyperswarm()
 
-swarm.join(&#39;my-p2p-app-{put-your-name-here}&#39;)
+var topic = Buffer.from(&#39;a49766a23610999dc5dfe05bc37cd98a9911d4b46bd25fc2cd037b9669a1e214&#39;, &#39;hex&#39;)
+
+swarm.join(topic, {
+  lookup: true, // find &amp; connect to peers
+  announce: true // optional- announce yourself as a connection target
+})
 
 // this event is fired every time you find and connect to a new peer also on the same key
-swarm.on(&#39;connection&#39;, function (connection, info) {
-  // `info `is a simple object that describes the peer we connected to
-  console.log(&#39;found a peer&#39;, info)
-  // `connection` is a duplex stream that you read from and write to
+swarm.on(&#39;connection&#39;, function (socket, details) {
+  // `details` is a simple object that describes the peer we connected to
+  console.log(&#39;found a peer&#39;, details)
+  // `socket` is a duplex stream that you read from and write to it, e.g.,
+  // process.stdin.pipe(socket).pipe(process.stdout)
 })</code></pre>
 <ul>
 <li>Try running discovery.js twice, each in its own terminal window. </li>
@@ -697,7 +703,7 @@ swarm.on(&#39;connection&#39;, function (connection, info) {
 </ul>
 <h3 id="extra-credit">Extra credit</h3>
 <ul>
-<li>Try writing some data to the connection and reading it out on the other peer. <code>connection</code> is a duplex stream, so you can use <code>connection.write(&#39;hello&#39;)</code> to write data, and listen to it for <code>&quot;data&quot;</code> events like the other streams we&#39;ve worked with.</li>
+<li>Try writing some data to the socket and reading it out on the other peer. <code>socket</code> is a duplex stream, so you can use <code>socket.write(&#39;hello&#39;)</code> to write data, and listen to it for <code>&quot;data&quot;</code> events like the other streams we&#39;ve worked with.</li>
 </ul>
 <p>Once you solve this exercise continue to <a href="07a.html">exercise 7a</a></p>
 </body></html>

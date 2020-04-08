@@ -32,16 +32,18 @@ core.use('pos', positionView)
 core.use('chat', chatView)
 
 // search the local network + internet for peers
-var swarm = discovery()
-swarm.listen(4000 + Math.floor(Math.random() * 1000))
-swarm.join('p2p-game-ireland')
-swarm.on('connection', function (peer) {
-  var r = core.replicate()
-  pump(r, peer, r)
+core.ready(function () {
+  var swarm = discovery()
+  swarm.listen(4000 + Math.floor(Math.random() * 1000))
+  swarm.join('p2p-game-ireland')
+  swarm.on('connection', function (peer) {
+    var r = core.replicate()
+    pump(r, peer, r)
+  })
 })
 
 // start the local player at 15,6, if their feed is empty
-core.feed('local', function (err, feed) {
+core.writer('local', function (err, feed) {
   if (feed.length > 0) return
   feed.append({
     type: 'move-player',
@@ -76,7 +78,7 @@ app.input.on('keypress', function (ch, key) {
 
 // submitting a chat message
 app.input.on('enter', function (line) {
-  core.feed('local', function (err, feed) {
+  core.writer('local', function (err, feed) {
     feed.append({
       type: 'chat-message',
       text: line,
@@ -87,7 +89,7 @@ app.input.on('enter', function (line) {
 
 // move the local player
 function moveLocalPlayer (xoffset, yoffset) {
-  core.feed('local', function (err, feed) {
+  core.writer('local', function (err, feed) {
     core.api.pos.get(feed.key.toString('hex'), function (err, values) {
       var x = (values[0].value.x || 0) + xoffset
       var y = (values[0].value.y || 0) + yoffset

@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -686,12 +687,11 @@ body {
     return screen.join(&#39;\n&#39;)
 }</code></pre>
 <h4 id="and-beyond-">And beyond!</h4>
-<p>From here you should be able to hook this up with your <code>discovery-swarm</code> code and see other players, move around, and chat in real-time! You can even play the game while you&#39;re offline and your movements &amp; messages will sync to others when they see you again.</p>
+<p>From here you should be able to hook this up with your <code>hyperswarm</code> code and see other players, move around, and chat in real-time! You can even play the game while you&#39;re offline and your movements &amp; messages will sync to others when they see you again.</p>
 <p>There are tons of fun additions you could make to the game from here:</p>
 <ul>
 <li>show a text bubble over each player with their latest message, instead of a chat window</li>
 <li>provide a keyboard key that lets each player cycle the colour of their character (<a href="https://github.com/chalk/chalk">chalk</a> is handy for this)</li>
-<li>port the UI to the browser! you can replace <code>discovery-swarm</code> with <a href="https://github.com/mafintosh/webrtc-swarm">webrtc-swarm</a> to find other peers using WebRTC. You could have terminal players able to interact with browser players!</li>
 <li>add items that players can pick up and drop, and manage their inventory</li>
 <li>generate <a href="https://github.com/domasx2/dungeon-generator">random levels</a> using a shared random seed, that players can explore together</li>
 </ul>

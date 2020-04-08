@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -677,9 +678,9 @@ hello&lt;ENTER&gt;
 &lt;2018-11-05T14:26:000Z&gt; cat-lover: hello</code></pre>
 <h4 id="tips">Tips</h4>
 <ul>
-<li>Readable streams are also event emitters, which emit a <code>&quot;data&quot;</code> event whenever new data is available.</li>
+<li>Readable streams are also event emitters. They emit a <code>&quot;data&quot;</code> event whenever new data is available.</li>
 <li>Remember that you may have older entries from earlier exercises in your hypercore that don&#39;t conform to the chat message format! Can you skip non-chat-messages and not render them?</li>
-<li>You can read messages from stdin using this following snippet:</li>
+<li>You can read messages from <code>stdin</code> using this following snippet:</li>
 </ul>
 <pre><code class="language-js">process.stdin.on(&#39;data&#39;, function (data) {
   feed.append({

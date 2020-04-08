@@ -6,10 +6,7 @@ body { padding: 40px; }
 }
 
 body {
-  padding: 5rem 2rem 8rem 2rem;
-  width: 50rem;
-  margin-left: auto;
-  margin-right: auto;
+
 }
 
 .markdown-body {
@@ -20,6 +17,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
+  padding: 5rem 2rem 8rem 2rem;
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .markdown-body a {
@@ -664,11 +665,11 @@ body {
   border-color: #4078c0;
 }
 </style></head><body class="markdown-body"><h3 id="4-poking-at-the-data">4 - Poking at the data</h3>
-<p>When you append data to the hypercore what happens behind the scenes is that hypercore produces a bunch of cryptographic hashes to build something called a merkle tree (ask a mentor if you are interested in this!). This is all needed so data can be shared securely in a p2p fashion so that no one can tamper with the data without us knowing it.</p>
-<p>In the end the data is actually just stored in normal files. You can actually just cat out the data file to see the data you appended.</p>
-<pre><code class="language-sh"># should print the data in the hypercore
+<p>When you append data to the hypercore what happens behind the scenes is that hypercore produces a bunch of cryptographic hashes to build something called <a href="https://datprotocol.github.io/book/ch01-02-merkle-tree.html">a Merkle tree</a> (ask a mentor or <a href="https://datprotocol.github.io/book/">read the DAT Protocol Book</a> if you are interested in learning more about the internal details of DAT). This is all needed so data can be shared securely in a p2p fashion so that no one can tamper with the data without us knowing it.</p>
+<p>In the end, the data is actually just stored in normal files. You can actually just <code>cat</code> out the data file to see the data you appended:</p>
+<pre><code class="language-sh"># print the data in the hypercore
 cat single-chat-feed/data</code></pre>
-<p>If you want to start over and reset your database all you need to do is remove the folder you are passing to the hypercore constructor - nice and simple :)</p>
+<p>If you want to start over and reset your database, all you need to do is remove the folder you are passing to the hypercore constructor – nice and simple :)</p>
 <h4 id="exercise">Exercise</h4>
 <p>Try catting the data file in the hypercore to see the actual data on disk.</p>
 <p>Try resetting the hypercore and re-running the solution from the previous exercise to see that the data gets rewritten.</p>
