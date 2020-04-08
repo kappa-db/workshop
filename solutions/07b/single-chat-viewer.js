@@ -6,9 +6,9 @@ var feed = hypercore('./single-chat-feed-clone', 'dd5bd9ef129b88cd5305804be1f87c
   valueEncoding: 'json'
 })
 
-feed.createReadStream({ live: true})
+feed.createReadStream({ live: true })
   .on('data', function (data) {
-    console.log(data)
+    console.log(`<${data.timestamp}> ${data.nickname}: ${data.text}`)
   })
 
 var swarm = hyperswarm()
@@ -30,4 +30,3 @@ feed.ready(function () {
     pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
-
