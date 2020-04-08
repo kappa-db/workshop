@@ -8,7 +8,7 @@ feed.append({
   nickname: 'cat-lover',
   text: 'hello world',
   timestamp: '2018-11-05T14:26:000Z' // new Date().toISOString()
-}, function(err, seq) {
+}, function (err, seq) {
   if (err) throw err
   console.log('Data was appended as entry #' + seq)
 })
@@ -17,7 +17,7 @@ feed.append({
 //   console.log('msg', msg)
 // })
 
-process.stdin.on('data', function(data) {
+process.stdin.on('data', function (data) {
   feed.append({
     type: 'chat-message',
     nickname: 'cat-lover',
@@ -27,6 +27,6 @@ process.stdin.on('data', function(data) {
 })
 
 feed.createReadStream({ live: true })
-  .on('data', function(data) {
+  .on('data', function (data) {
     console.log(`<${data.timestamp}> ${data.nickname}: ${data.text}`)
   })

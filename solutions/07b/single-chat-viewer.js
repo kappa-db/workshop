@@ -7,19 +7,19 @@ var feed = hypercore('./single-chat-feed-clone', 'dd5bd9ef129b88cd5305804be1f87c
 })
 
 feed.createReadStream({ live: true })
-  .on('data', function(data) {
+  .on('data', function (data) {
     console.log(`<${data.timestamp}> ${data.nickname}: ${data.text}`)
   })
 
 var swarm = hyperswarm()
 
-feed.ready(function() {
+feed.ready(function () {
   // we use the discovery as the topic
   swarm.join(feed.discoveryKey, {
     lookup: true, // find & connect to peers
     announce: true // optional- announce self as a connection target
   })
-  swarm.on('connection', function(connection, info) {
+  swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
 
     // We use the pump module instead of stream.pipe(otherStream)
@@ -30,4 +30,3 @@ feed.ready(function() {
     pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
-

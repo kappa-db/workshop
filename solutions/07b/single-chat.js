@@ -11,7 +11,7 @@ feed.append({
   nickname: 'cat-lover',
   text: 'hello world',
   timestamp: '2018-11-05T14:26:000Z' // new Date().toISOString()
-}, function(err, seq) {
+}, function (err, seq) {
   if (err) throw err
   console.log('Data was appended as entry #' + seq)
 })
@@ -20,7 +20,7 @@ feed.append({
 //   console.log('msg', msg)
 // })
 
-process.stdin.on('data', function(data) {
+process.stdin.on('data', function (data) {
   feed.append({
     type: 'chat-message',
     nickname: 'cat-lover',
@@ -30,13 +30,13 @@ process.stdin.on('data', function(data) {
 })
 
 feed.createReadStream({ live: true })
-  .on('data', function(data) {
+  .on('data', function (data) {
     console.log(`<${data.timestamp}> ${data.nickname}: ${data.text}`)
   })
 
 var swarm = hyperswarm()
 
-feed.ready(function() {
+feed.ready(function () {
   console.log(feed.key.toString('hex'))
 
   // we use the discovery as the topic
@@ -44,7 +44,7 @@ feed.ready(function() {
     lookup: true, // find & connect to peers
     announce: true // optional- announce self as a connection target
   })
-  swarm.on('connection', function(connection, info) {
+  swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
 
     // We use the pump module instead of stream.pipe(otherStream)
@@ -56,4 +56,3 @@ feed.ready(function() {
     pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
-
