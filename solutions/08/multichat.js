@@ -34,7 +34,7 @@ multi.writer('local', function (err, feed) {
 })
 
 function startSwarm (topic) {
-  var swarm = discovery()
+  var swarm = hyperswarm()
   swarm.join(topic, {
     lookup: true, // find & connect to peers
     announce: true // optional- announce self as a connection target
