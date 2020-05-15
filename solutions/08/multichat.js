@@ -16,7 +16,7 @@ const topicHex = crypto.createHash('sha256')
 		       .update('foobar-123')
 		       .digest()
 
-var multi = multifeed('./multichat_' + num, {
+var multi = multifeed(hypercore, './multichat_' + num, {
   valueEncoding: 'json'
 })
 
