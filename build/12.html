@@ -668,10 +668,8 @@ body {
 <p>Now you&#39;ve built a simple chat application :star:! In the next section, we will extend our chat application with more views to create a peer-to-peer game.</p>
 <p>Eventually we&#39;d like to add movable characters to the game, so it would be nice if the chat messages only took up a fixed portion along the bottom of the screen.</p>
 <p>Two useful modules for managing a fullscreen terminal app&#39;s UI are <a href="https://github.com/neat-log/neat-log">neat-log</a> and <a href="https://github.com/noffle/txt-blit">txt-blit</a>. Both should already be installed in your workshop folder.</p>
-<p>Here is an example terminal app that draws the text <code>HELLO WORLD</code> animated in the middle of the screen:</p>
-<pre><code class="language-js">// ui.js
-
-var neatLog = require(&#39;neat-log&#39;)
+<p>Here is an example terminal app that draws the text <code>HELLO WORLD</code> animated in the middle of the screen. Type it into a file caled _ui.js_:</p>
+<pre><code class="language-js">var neatLog = require(&#39;neat-log&#39;)
 var blit = require(&#39;txt-blit&#39;)
 
 var neat = neatLog(view, { fullscreen: true })
