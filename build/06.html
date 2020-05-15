@@ -665,7 +665,7 @@ body {
   border-color: #4078c0;
 }
 </style></head><body class="markdown-body"><h3 id="6-networking-with-other-peers">6: Networking with other peers</h3>
-<p>Great, we now how a working chat app however it is not that interesting yet. First of all we can only chat with ourself and even worse we can only see the data in the same process we are writing. Kinda boring.</p>
+<p>Great, we now how a working chat app! However, it is not that interesting yet. First of all, we can only chat with ourselves. Even worse, we can only see the data in the same process to which we are writing. Kinda boring.</p>
 <p>Since we are doing a P2P workshop we want to make P2P network connections with each other. Contrary to how we build HTTP services we don&#39;t really have a client/server model in P2P. Instead we have what is called a &quot;swarm&quot;. A swarm is just a collection of network sockets connecting us to various users all interested in a specific topic.</p>
 <p>To achieve this, we&#39;ll use a module called <a href="https://github.com/hyperswarm"><code>hyperswarm</code></a>. This module has three strategies to connect the <em>swarm</em> of peers:</p>
 <ol>
@@ -673,12 +673,11 @@ body {
 <li>Search the internet using a well-known server. The next phase is to search using dns, also with <code>dns-discovery</code>.</li>
 <li>If these methods fail, it looks in a DHT (_distributed hashtable_). </li>
 </ol>
-<p>The third approach uses &quot;bootstrap nodes&quot;. The bootstrap nodes
-function like known <em>peers</em> beforehand, that we use to start to know others and
-like this form our own <em>swarm</em>. In other words, we need to know someone to enter the network. Unlike centralized services, anybody can provide these bootstrap peers, and they don&#39;t need to ever see our data.</p>
+<p>The third approach uses &quot;bootstrap nodes&quot;. Bootstrap nodes
+are hardcoded  <em>peers</em>. We use them so we have a starting point for discovering other peers with the goal of forming our own <em>swarm</em>. In other words, we need to know someone to enter the network. Unlike centralized services, anybody can provide these bootstrap peers, and they don&#39;t need to ever see our data.</p>
 <p>You give hyperswarm a unique key that other peers using your app can use to locate each other.</p>
 <h3 id="exercise">Exercise</h3>
-<p>Create a <code>discovery.js</code> file:</p>
+<p>Create a <em>discovery.js</em> file:</p>
 <pre><code class="language-js">var hyperswarm = require(&#39;hyperswarm&#39;)
 
 var swarm = hyperswarm()
@@ -698,8 +697,8 @@ swarm.on(&#39;connection&#39;, function (socket, details) {
   // process.stdin.pipe(socket).pipe(process.stdout)
 })</code></pre>
 <ul>
-<li>Try running discovery.js twice, each in its own terminal window. </li>
-<li>They should find each other if they&#39;re using the same swarm key.</li>
+<li>Try running <em>discovery.js</em> twice, each in its own terminal window.</li>
+<li>The two processes should find each other if they&#39;re using the same swarm key.</li>
 </ul>
 <h3 id="extra-credit">Extra credit</h3>
 <ul>
