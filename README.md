@@ -26,7 +26,7 @@ Some folks have been throwing around the confusing term "serverless", which is m
 
 #### Is this production-ready?
 
-Yes! From [researchers in universities](http://datproject.org) all the way to the [remote reaches of the amazon rainforst](http://mapeo.world), people are already using the tools you're learning in this workshop. Check out [http://dat.land](http://dat.land) for an up-to-date list of those who use these applications.
+Yes! From [researchers in universities](http://datproject.org) all the way to the [remote reaches of the amazon rainforst](http://mapeo.world), people are already using the tools you're learning in this workshop. Check out [http://hypercore-protocol.org](http://hypercore-protocol.org) for an up-to-date list of those who use these applications.
 
 #### OK, I'm ready
 
