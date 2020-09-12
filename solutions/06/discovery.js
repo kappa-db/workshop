@@ -12,6 +12,13 @@ swarm.join(topic, {
 swarm.on('connection', (socket, details) => {
   console.log('new connection!', details)
 
+  socket.write(`We're connected, yo!`);
+
+  socket.on('data', (data)=>{
+    process.stdout.write(`New Data: ${data}`)
+  })
+
   // you can now use the socket as a stream, eg:
-  // process.stdin.pipe(socket).pipe(process.stdout)
+  process.stdin.pipe(socket)//.pipe(process.stdout)
+
 })
