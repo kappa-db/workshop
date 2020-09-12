@@ -30,7 +30,7 @@ Yes! From [researchers in universities](http://datproject.org) all the way to th
 
 #### OK, I'm ready
 
-[Get started](https://noffle.github.io/kappa-arch-workshop/build/01.html)
+[Get started](https://kappa-db.github.io/workshop/build/01.html)
 
 # License
 
