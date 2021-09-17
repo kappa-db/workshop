@@ -7,8 +7,14 @@ var blit = require('txt-blit')
 var kv = require('kappa-view-kv')
 var list = require('kappa-view-list')
 var ram = require('random-access-memory')
-var discovery = require('discovery-swarm')
+var hyperswarm = require('hyperswarm')
 var pump = require('pump')
+var crypto = require('crypto')
+
+// Creating topic
+const topicHex = crypto.createHash('sha256')
+		       .update('kappa-workshop-fullgame')
+		       .digest()
 
 var positionView = kv(memdb(), function (msg, next) {
   if (msg.value.type !== 'move-player') return next()
@@ -33,12 +39,14 @@ core.use('chat', chatView)
 
 // search the local network + internet for peers
 core.ready(function () {
-  var swarm = discovery()
-  swarm.listen(4000 + Math.floor(Math.random() * 1000))
-  swarm.join('p2p-game-ireland')
-  swarm.on('connection', function (peer) {
-    var r = core.replicate()
-    pump(r, peer, r)
+  var swarm = hyperswarm()
+  swarm.join(topicHex, {
+    lookup: true, // find & connect to peers
+    announce: true // optional- announce self as a connection target
+  })
+  swarm.on('connection', function (connection, info) {
+    console.log('(New peer connected!)')
+    pump(connection, core.replicate(info.client, { live: true }), connection)
   })
 })
 
