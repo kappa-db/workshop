@@ -664,7 +664,7 @@ body {
   position: relative;
   border-color: #4078c0;
 }
-</style></head><body class="markdown-body"><h3 id="7b-replication">7b - Replication</h3>
+</style></head><body class="markdown-body"><h3 id="7b---replication">7b - Replication</h3>
 <p>We can use the things we learned about hypercore keys and swarms to start sharing our chat feed with other people now. Since only the process with the secret key can write to the chat feed we wanna make a simple chat viewer that will just print out replicated chat messages.</p>
 <p>Copy the following snippet and save it as <em>single-chat-viewer.js</em></p>
 <pre><code class="language-js">var hyperswarm = require(&#39;hyperswarm&#39;)
@@ -679,7 +679,7 @@ feed.createReadStream({ live: true })
   .on(&#39;data&#39;, function (data) {
     console.log(data)
   })
-
+ 
 var swarm = hyperswarm()
 
 feed.ready(function () {
@@ -687,15 +687,16 @@ feed.ready(function () {
   swarm.join(feed.discoveryKey, { lookup: true, announce: true })
   swarm.on(&#39;connection&#39;, function (socket, details) {
     console.log(&#39;(New peer connected!)&#39;)
-
+    
     // We use the pump module instead of stream.pipe(otherStream)
     // as it does stream error handling, so we do not have to do that
     // manually.
-
+    
     // See below for more detail on how this work.
     pump(socket, feed.replicate(details.initiator, { live: true }), socket)
   })
-})</code></pre>
+})
+</code></pre>
 <p>The hypercore API <code>feed.replicate(isInitiator, opts)</code> returns a Duplex stream, a special type of node stream that can be both read from and written to. If you <code>pump</code> the feed replication streams together, they automatically synchronize themselves so that they both end up with the same data on each side.</p>
 <p>The <code>isInitiator</code> parameter is used to set up the encryption protocol between peers, which requires one side to designate themselves as the connection initiator. The only thing to worry about here is that one side sets this to <code>true</code> and the other side to <code>false</code>.</p>
 <p>The <em>single-chat-viewer.js</em> will join the swarm using the chat feed&#39;s discovery key
@@ -710,7 +711,7 @@ and use that to find other chat peers. However, it won&#39;t work if you run it 
 <h4 id="more-resources">More Resources</h4>
 <ul>
 <li><a href="https://github.com/hyperswarm/replicator">@hyperswarm/replicator</a> for an easy api for joining the swarm of a hypercore </li>
-<li><a href="https://github.com/pfrazee/dat-gateway">dat-gateway</a> for HTTP server for hypercores </li>
+<li><a href="https://github.com/pfrazee/dat-gateway">dat-gateway</a> for HTTP server for hypercores</li>
 </ul>
 <p>Once you solve this exercise continue to <a href="08.html">exercise 8</a></p>
 </body></html>

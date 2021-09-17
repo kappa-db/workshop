@@ -668,7 +668,8 @@ body {
 <p><a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a> has an event listener API called <code>onUpdate</code>, which emits the key that was modified, as well as its new value:</p>
 <pre><code class="language-js">core.api.kv.onUpdate(function (key, msg) {
     console.log(key, &#39;=&#39;, msg.value)
-})</code></pre>
+})
+</code></pre>
 <h4 id="exercise">Exercise</h4>
 <p>See if you can listen for key updates and have messages of type <code>player-position</code> update a player character on the screen with neat-log.</p>
 <h4 id="tips">Tips</h4>
@@ -677,16 +678,17 @@ body {
 </ul>
 <pre><code class="language-js">function draw (state) {
     var screen = []
-
+    
     var playerIcon = [&#39;@&#39;]
     for (var i = 0; i &lt; state.playerPositions.length; i++) {
         var pos = state.playerPositions[i]
         blit(screen, playerIcon, pos.x, pos.y)
     }
-
+    
     return screen.join(&#39;\n&#39;)
-}</code></pre>
-<h4 id="and-beyond-">And beyond!</h4>
+}
+</code></pre>
+<h4 id="and-beyond">And beyond!</h4>
 <p>From here you should be able to hook this up with your <code>hyperswarm</code> code and see other players, move around, and chat in real-time! You can even play the game while you&#39;re offline and your movements &amp; messages will sync to others when they see you again.</p>
 <p>There are tons of fun additions you could make to the game from here:</p>
 <ul>

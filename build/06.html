@@ -671,7 +671,7 @@ body {
 <ol>
 <li>Search the local network. It makes queries in the local network using multicast dns (MDNS).</li>
 <li>Search the internet using a well-known server. The next phase is to search using dns, also with <code>dns-discovery</code>.</li>
-<li>If these methods fail, it looks in a DHT (_distributed hashtable_). </li>
+<li>If these methods fail, it looks in a DHT (<em>distributed hashtable</em>).</li>
 </ol>
 <p>The third approach uses &quot;bootstrap nodes&quot;. Bootstrap nodes
 are hardcoded  <em>peers</em>. We use them so we have a starting point for discovering other peers with the goal of forming our own <em>swarm</em>. In other words, we need to know someone to enter the network. Unlike centralized services, anybody can provide these bootstrap peers, and they don&#39;t need to ever see our data.</p>
@@ -695,7 +695,8 @@ swarm.on(&#39;connection&#39;, function (socket, details) {
   console.log(&#39;found a peer&#39;, details)
   // `socket` is a duplex stream that you read from and write to it, e.g.,
   // process.stdin.pipe(socket).pipe(process.stdout)
-})</code></pre>
+})
+</code></pre>
 <ul>
 <li>Try running <em>discovery.js</em> twice, each in its own terminal window.</li>
 <li>The two processes should find each other if they&#39;re using the same swarm key.</li>

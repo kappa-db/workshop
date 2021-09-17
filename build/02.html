@@ -664,21 +664,29 @@ body {
   position: relative;
   border-color: #4078c0;
 }
-</style></head><body class="markdown-body"><h3 id="2-getting-the-dependencies">2 - Getting the dependencies</h3>
+</style></head><body class="markdown-body"><h3 id="2---getting-the-dependencies">2 - Getting the dependencies</h3>
 <p>Awesome, let&#39;s get started.</p>
 <p>Each of the exercises today will be built on a data structure called an append-only log. An append-only log is like a list that you are only ever allowed to add entries to the end of, but which you can read from it at any index. Each entry is indexed from 0, 1, 2, 3… like an array. This number is called the <em>sequence number</em>. Combined with cryptographically signing each entry, these logs are very useful when building peer-to-peer applications as they are easy to share between multiple computers in a secure and efficient way.</p>
 <p>The append-only log we will be using for today&#39;s workshop exercises is called <strong>hypercore</strong>. Hypercore was written to be the main component of the <a href="https://datproject.org">Dat project</a> but it also exists as a completely independent data structure. A hypercore is also referred to as a <em>feed</em>. Each hypercore has a cryptographic <em>feed key</em>.</p>
 <p>You can read a lot more about Hypercore at <a href="https://github.com/mafintosh/hypercore">https://github.com/mafintosh/hypercore</a> or talk to one of the mentors.</p>
 <p>It&#39;s a good idea to keep <a href="https://github.com/mafintosh/hypercore/blob/master/README.md">the hypercore README</a> open in a browser tab for the rest of the workshop.</p>
 <p>To get started, create a <em>package.json</em> with all the dependencies you will need for the workshop, including hypercore. In a terminal window, enter:</p>
-<pre><code>git clone https://gist.github.com/okdistribute/6d2d11e43977054d0613f4714cc48076 kappa-workshop</code></pre><p>Then, use your terminal to change the current working directory to the <code>kappa-workshop</code>:</p>
-<pre><code>cd kappa-workshop</code></pre><p>To install the dependencies, run:</p>
+<pre><code>git clone https://gist.github.com/okdistribute/6d2d11e43977054d0613f4714cc48076 kappa-workshop
+</code></pre>
+<p>Then, use your terminal to change the current working directory to the <code>kappa-workshop</code>:</p>
+<pre><code>cd kappa-workshop
+</code></pre>
+<p>To install the dependencies, run:</p>
 <pre><code>npm install
-`</code></pre><p>This should install all of the modules specified in the package.json required for this workshop.</p>
+</code></pre>
+<p>This should install all of the modules specified in the package.json required for this workshop.</p>
 <p>To test that everything is installed successfully, make a new file called <em>hypercore.js</em> with the following content:</p>
-<pre><code class="language-js">var hypercore = require(&#39;hypercore&#39;)</code></pre>
+<pre><code class="language-js">var hypercore = require(&#39;hypercore&#39;)
+</code></pre>
 <h4 id="exercise">Exercise</h4>
 <p>Try running that file to see that it can load the installed Hypercore module. If no errors appear, then you have everything installed correctly!</p>
 <p>You can run the file in your terminal by entering:</p>
-<pre><code>node hypercore.js</code></pre><p>Once you solve this exercise continue to <a href="03.html">exercise 3</a></p>
+<pre><code>node hypercore.js
+</code></pre>
+<p>Once you solve this exercise continue to <a href="03.html">exercise 3</a></p>
 </body></html>

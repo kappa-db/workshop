@@ -666,7 +666,8 @@ body {
 }
 </style></head><body class="markdown-body"><h3 id="16-player-movement-keys">16: Player movement keys</h3>
 <p><code>neat-log</code> can capture keyboard input. If you named your instance of neat-log <code>app</code>, you&#39;d write</p>
-<pre><code class="language-js">app.input.on(&#39;left&#39;, function () {})</code></pre>
+<pre><code class="language-js">app.input.on(&#39;left&#39;, function () {})
+</code></pre>
 <h4 id="exercise">Exercise</h4>
 <p>Make the left/right/up/down arrow keys publish messages that update your player&#39;s x/y coordinates.</p>
 <p>See if you can figure out how to use the <a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a>&#39;s <code>get</code> API to fetch a player&#39;s latest x/y position.</p>

@@ -664,7 +664,7 @@ body {
   position: relative;
   border-color: #4078c0;
 }
-</style></head><body class="markdown-body"><h3 id="5-messages-in-real-time">5 - Messages in Real Time</h3>
+</style></head><body class="markdown-body"><h3 id="5---messages-in-real-time">5 - Messages in Real Time</h3>
 <p>A necessary part of a chat program is, of course, the ability to see the chat messages written to it.</p>
 <p>hypercore has a function called <code>createReadStream</code> that returns a <a href="https://nodejs.org/api/stream.html#stream_readable_streams">Readable node stream</a> of feed entries / messages, starting from sequence number (seq) zero, and counting up.</p>
 <blockquote>
@@ -675,7 +675,8 @@ body {
 <p>Write code in <code>single-chat.js</code> that reads lines of input from the user, and uses <code>createReadStream</code> to write those messages back to the console as they are emitted from hypercore, e.g.</p>
 <pre><code class="language-sh">$ node single-chat.js
 hello&lt;ENTER&gt;
-&lt;2018-11-05T14:26:000Z&gt; cat-lover: hello</code></pre>
+&lt;2018-11-05T14:26:000Z&gt; cat-lover: hello
+</code></pre>
 <h4 id="tips">Tips</h4>
 <ul>
 <li>Readable streams are also event emitters. They emit a <code>&quot;data&quot;</code> event whenever new data is available.</li>
@@ -689,13 +690,15 @@ hello&lt;ENTER&gt;
     text: data.toString().trim(),
     timestamp: new Date().toISOString()
   })
-})</code></pre>
+})
+</code></pre>
 <ul>
 <li>You can read messages out of the hypercore as they are added using a live read stream:</li>
 </ul>
 <pre><code class="language-js">feed.createReadStream({ live: true })
   .on(&#39;data&#39;, function (data) {
     console.log(data)
-  })</code></pre>
+  })
+</code></pre>
 <p>Once you solve this exercise continue to <a href="06.html">exercise 6</a></p>
 </body></html>

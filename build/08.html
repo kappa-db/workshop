@@ -664,7 +664,7 @@ body {
   position: relative;
   border-color: #4078c0;
 }
-</style></head><body class="markdown-body"><h3 id="8-multiple-peers-in-one-app-">8: Multiple peers in one app!</h3>
+</style></head><body class="markdown-body"><h3 id="8-multiple-peers-in-one-app">8: Multiple peers in one app!</h3>
 <p>In review so far we know how to:</p>
 <ol>
 <li>create a secure append-only log, that a single user can write to</li>
@@ -695,7 +695,8 @@ multi.writer(&#39;local&#39;, function (err, feed) {
     if (err) throw err
     console.log(&#39;Data was appended as entry #&#39; + seq)
   })
-})</code></pre>
+})
+</code></pre>
 <p>See if you can also add peer discovery and replication to this. Just like
 hypercore, multifeed has a <code>multi.replicate()</code> API that lets two peers sync
 their data over a duplex stream. Look back at how you set you peer discovery
@@ -710,13 +711,15 @@ for hypercore for ideas on how to do this.</p>
             .update(&#39;foobar-123&#39;)
             .digest()
 
-swarm.join(topic, ...)</code></pre>
+swarm.join(topic, ...)
+</code></pre>
 <ul>
 <li>if running <code>node multichat.js</code> in two separate windows, each process must be using <em>a different database</em>. A good trick is to do something like this during multifeed creation:</li>
 </ul>
 <pre><code class="language-js">var suffix = process.argv[2]
 
-var multi = multifeed(&#39;./multichat-&#39; + suffix, {valueEncoding:&#39;json&#39;})</code></pre>
+var multi = multifeed(&#39;./multichat-&#39; + suffix, {valueEncoding:&#39;json&#39;})
+</code></pre>
 <p>This way, you can run <code>node multichat.js 1</code> in one window, and <code>node multichat.js 2</code> in the other window. If you try to run two processes that open the same multifeed database, things won&#39;t work!</p>
 <h4 id="tips">Tips</h4>
 <ul>

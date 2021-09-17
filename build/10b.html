@@ -684,7 +684,8 @@ var timestampView = list(memdb(), function (msg, next) {
 })
 
 var core = kappa(&#39;./multichat&#39;, {valueEncoding: &#39;json&#39;})
-core.use(&#39;chats&#39;, timestampView)</code></pre>
+core.use(&#39;chats&#39;, timestampView)
+</code></pre>
 <p>Running <code>core.use(title, view)</code> installs the list view API under <code>core.api.chats</code>.</p>
 <h4 id="exercise">Exercise</h4>
 <p>Look at the API for <code>kappa-view-list</code> and write code that will print out every name in the view, in alphabetical order.</p>
@@ -695,6 +696,7 @@ core.use(&#39;chats&#39;, timestampView)</code></pre>
 </ul>
 <pre><code class="language-js">core.writer(&#39;local&#39;, function (err, feed) {
     feed.append({type: &#39;chat-message&#39;, timestamp: new Date().toISOString() })
-})</code></pre>
+})
+</code></pre>
 <p>Once you solve this exercise continue to <a href="11.html">exercise 11</a></p>
 </body></html>

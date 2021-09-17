@@ -664,7 +664,7 @@ body {
   position: relative;
   border-color: #4078c0;
 }
-</style></head><body class="markdown-body"><h3 id="3-storing-and-retrieving-data">3 - Storing and retrieving data</h3>
+</style></head><body class="markdown-body"><h3 id="3---storing-and-retrieving-data">3 - Storing and retrieving data</h3>
 <p>As mentioned previously, Hypercore is an append-only data structure. Let&#39;s try to use it to store some data and read it out again.</p>
 <p>What if we wanted to build a peer-to-peer chat app? We might want to know the text of the message, message type, nickname, and perhaps a timestamp. Let&#39;s store messages in a specific format – using <a href="https://json.org/">JSON</a> – so we can identify them as chat messages, as shown here:</p>
 <pre><code class="language-js">// Save this file as single-chat.js
@@ -682,7 +682,8 @@ feed.append({
 }, function (err, seq) {
   if (err) throw err
   console.log(&#39;Data was appended as entry #&#39; + seq)
-})</code></pre>
+})
+</code></pre>
 <h4 id="exercise">Exercise</h4>
 <p>Try running the above code a couple of times. You should see the entry sequence number increase each time. The entry sequence number (or <code>seq</code>) is the &quot;key&quot; to this data entry and you can use it to retrieve the data again using the <code>feed.get</code> api.</p>
 <p>Try reading out the first entry (<code>0</code>) using the <code>feed.get</code> api and <code>console.log()</code> it.</p>
