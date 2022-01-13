@@ -1,6 +1,6 @@
 # kappa architecture workshop
 
-by (in no particular order): [noffle](https://github.com/noffle), [okdistribute](https://github.com/okdistribute), and [mafintosh](https://github.com/mafintosh) 
+by (in no particular order): [hackergrrl](https://github.com/hackergrrl), [okdistribute](https://github.com/okdistribute), and [mafintosh](https://github.com/mafintosh) 
 
 A small series of workshops to introduce kappa architecture and how to build p2p programs with modules like hypercore, multifeed, and kappa-core.
 
@@ -30,7 +30,7 @@ Yes! From [researchers in universities](http://datproject.org) all the way to th
 
 #### OK, I'm ready
 
-[Get started](https://noffle.github.io/kappa-arch-workshop/build/01.html)
+[Get started](https://hackergrrl.github.io/kappa-arch-workshop/build/01.html)
 
 # License
 
