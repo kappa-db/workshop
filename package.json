@@ -23,7 +23,8 @@
     "txt-blit": "^1.0.0"
   },
   "devDependencies": {
-    "marked": "^3.0.4",
+    "highlight.js": "^11.4.0",
+    "marked": "^4.0.12",
     "rimraf": "^3.0.0",
     "standard": "^16.0.3",
     "tape": "^5.3.1"
