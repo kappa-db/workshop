@@ -41,6 +41,18 @@ const style = `<style>
     margin-left: auto;
     margin-right: auto;
   }
+  .markdown-body h3 {
+    font-size: 1.5em;
+  }
+  .markdown-body h4 {
+    font-size: 1.25em;
+  }
+  .markdown-body pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
   ${css}
 </style>`
 
