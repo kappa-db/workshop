@@ -1,24 +1,10 @@
-var hyperswarm = require('hyperswarm')
-var hypercore = require('hypercore')
-var pump = require('pump')
+const Hyperswarm = require('hyperswarm')
+const hypercore = require('hypercore')
+const pump = require('pump')
 
-var feed = hypercore('./single-chat-feed', {
+const feed = hypercore('./single-chat-feed', {
   valueEncoding: 'json'
 })
-
-feed.append({
-  type: 'chat-message',
-  nickname: 'cat-lover',
-  text: 'hello world',
-  timestamp: '2018-11-05T14:26:000Z' // new Date().toISOString()
-}, function (err, seq) {
-  if (err) throw err
-  console.log('Data was appended as entry #' + seq)
-})
-
-// feed.get(0, function (err, msg) {
-//   console.log('msg', msg)
-// })
 
 process.stdin.on('data', function (data) {
   feed.append({
@@ -34,16 +20,13 @@ feed.createReadStream({ live: true })
     console.log(`<${data.timestamp}> ${data.nickname}: ${data.text}`)
   })
 
-var swarm = hyperswarm()
+const swarm = new Hyperswarm()
 
 feed.ready(function () {
   console.log(feed.key.toString('hex'))
 
   // we use the discovery as the topic
-  swarm.join(feed.discoveryKey, {
-    lookup: true, // find & connect to peers
-    announce: true // optional- announce self as a connection target
-  })
+  swarm.join(feed.discoveryKey)
   swarm.on('connection', function (connection, info) {
     console.log('(New peer connected!)')
 
@@ -52,7 +35,6 @@ feed.ready(function () {
     // manually.
 
     // See below for more detail on how this work.
-    console.log('info', info)
     pump(connection, feed.replicate(info.client, { live: true }), connection)
   })
 })
