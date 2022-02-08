@@ -1,1 +1,1 @@
-var hypercore = require('hypercore')
+const hypercore = require('hypercore')
