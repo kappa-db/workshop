@@ -2,7 +2,7 @@ const Hyperswarm = require('hyperswarm')
 const hypercore = require('hypercore')
 const pump = require('pump')
 
-const feed = hypercore('./single-chat-feed-clone', '300abc0487273510e4c2b23e3d45bc3ef4e161d6265cf176312c25866436d62e', {
+const feed = hypercore('./single-chat-feed-clone', 'dd5bd9ef129b88cd5305804be1f87cbbbdbf01fdbd4c235683a8d34723db2b89', {
   valueEncoding: 'json'
 })
 
