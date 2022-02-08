@@ -46,7 +46,7 @@
       <h3 id="17-player-movement-updates">17: Player movement updates</h3>
 <p><a href="https://github.com/noffle/kappa-view-kv">kappa-view-kv</a> has an event listener API called <code>onUpdate</code>, which emits the key that was modified, as well as its new value:</p>
 <pre><code class="hljs language-js">core.<span class="hljs-property">api</span>.<span class="hljs-property">kv</span>.<span class="hljs-title function_">onUpdate</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">key, msg</span>) {
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(key, <span class="hljs-string">&#x27;=&#x27;</span>, msg.<span class="hljs-property">value</span>)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(key, <span class="hljs-string">&#x27;=&#x27;</span>, msg.<span class="hljs-property">value</span>)
 })
 </code></pre>
 <h4 id="exercise">Exercise</h4>
@@ -56,15 +56,15 @@
 <li>You can draw a single character to neat-log in your draw method using <code>txt-blit</code>:</li>
 </ul>
 <pre><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">draw</span> (state) {
-    <span class="hljs-keyword">var</span> screen = []
-    
-    <span class="hljs-keyword">var</span> playerIcon = [<span class="hljs-string">&#x27;@&#x27;</span>]
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; state.<span class="hljs-property">playerPositions</span>.<span class="hljs-property">length</span>; i++) {
-        <span class="hljs-keyword">var</span> pos = state.<span class="hljs-property">playerPositions</span>[i]
-        <span class="hljs-title function_">blit</span>(screen, playerIcon, pos.<span class="hljs-property">x</span>, pos.<span class="hljs-property">y</span>)
-    }
-    
-    <span class="hljs-keyword">return</span> screen.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)
+  <span class="hljs-keyword">const</span> screen = []
+  <span class="hljs-keyword">const</span> playerIcon = [<span class="hljs-string">&#x27;@&#x27;</span>]
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; state.<span class="hljs-property">playerPositions</span>.<span class="hljs-property">length</span>; i++) {
+    <span class="hljs-keyword">const</span> pos = state.<span class="hljs-property">playerPositions</span>[i]
+    <span class="hljs-title function_">blit</span>(screen, playerIcon, pos.<span class="hljs-property">x</span>, pos.<span class="hljs-property">y</span>)
+  }
+
+  <span class="hljs-keyword">return</span> screen.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;\n&#x27;</span>)
 }
 </code></pre>
 <h4 id="and-beyond">And beyond!</h4>

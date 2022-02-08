@@ -55,20 +55,20 @@
 <p>This was the motivation behind <a href="https://github.com/kappa-db/multifeed">multifeed</a>, a module that lets you operate on a <em>set of hypercores</em>, and create a replication stream, in the same way that you replicated hypercores in the last exercise.</p>
 <h4 id="exercise">Exercise</h4>
 <p>Make a copy of <code>single-chat.js</code> called <code>multichat.js</code>, and replace usage of <code>hypercore</code> with <code>multifeed</code>. Here is how to create a multifeed, a new writer, and write to that feed:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
-<span class="hljs-keyword">var</span> multifeed = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;multifeed&#x27;</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
+<span class="hljs-keyword">const</span> multifeed = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;multifeed&#x27;</span>)
 
-<span class="hljs-keyword">var</span> multi = <span class="hljs-title function_">multifeed</span>(<span class="hljs-string">&#x27;./multichat&#x27;</span>, {<span class="hljs-attr">valueEncoding</span>:<span class="hljs-string">&#x27;json&#x27;</span>})
+<span class="hljs-keyword">const</span> multi = <span class="hljs-title function_">multifeed</span>(<span class="hljs-string">&#x27;./multichat&#x27;</span>, {<span class="hljs-attr">valueEncoding</span>:<span class="hljs-string">&#x27;json&#x27;</span>})
 
 multi.<span class="hljs-title function_">writer</span>(<span class="hljs-string">&#x27;local&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">err, feed</span>) {
   <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> join swarm</span>
 
   <span class="hljs-comment">// &#x27;feed&#x27; is a hypercore, just like before</span>
   <span class="hljs-comment">// except now we can manage many of them together!</span>
-  feed.<span class="hljs-title function_">append</span>({ 
+  feed.<span class="hljs-title function_">append</span>({
     <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;chat-message&#x27;</span>,
     <span class="hljs-attr">nickname</span>: <span class="hljs-string">&#x27;cat-lover&#x27;</span>,
-    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;hello world&#x27;</span>, 
+    <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;hello world&#x27;</span>,
     <span class="hljs-attr">timestamp</span>: <span class="hljs-string">&#x27;2018-11-05T14:26:000Z&#x27;</span> <span class="hljs-comment">// new Date().toISOString()</span>
   }, <span class="hljs-keyword">function</span> (<span class="hljs-params">err, seq</span>) {
     <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err
@@ -90,14 +90,14 @@ for hypercore for ideas on how to do this.</p>
             .<span class="hljs-title function_">update</span>(<span class="hljs-string">&#x27;foobar-123&#x27;</span>)
             .<span class="hljs-title function_">digest</span>()
 
-swarm.<span class="hljs-title function_">join</span>(topic, ...)
+swarm.<span class="hljs-title function_">join</span>(topic)
 </code></pre>
 <ul>
 <li>if running <code>node multichat.js</code> in two separate windows, each process must be using <em>a different database</em>. A good trick is to do something like this during multifeed creation:</li>
 </ul>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> suffix = process.<span class="hljs-property">argv</span>[<span class="hljs-number">2</span>]
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> suffix = process.<span class="hljs-property">argv</span>[<span class="hljs-number">2</span>]
 
-<span class="hljs-keyword">var</span> multi = <span class="hljs-title function_">multifeed</span>(<span class="hljs-string">&#x27;./multichat-&#x27;</span> + suffix, {<span class="hljs-attr">valueEncoding</span>:<span class="hljs-string">&#x27;json&#x27;</span>})
+<span class="hljs-keyword">const</span> multi = <span class="hljs-title function_">multifeed</span>(<span class="hljs-string">&#x27;./multichat-&#x27;</span> + suffix, { <span class="hljs-attr">valueEncoding</span>:<span class="hljs-string">&#x27;json&#x27;</span> })
 </code></pre>
 <p>This way, you can run <code>node multichat.js 1</code> in one window, and <code>node multichat.js 2</code> in the other window. If you try to run two processes that open the same multifeed database, things won&#39;t work!</p>
 <h4 id="tips">Tips</h4>

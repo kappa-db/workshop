@@ -46,11 +46,11 @@
       <h3 id="7b---replication">7b - Replication</h3>
 <p>We can use the things we learned about hypercore keys and swarms to start sharing our chat feed with other people now. Since only the process with the secret key can write to the chat feed we wanna make a simple chat viewer that will just print out replicated chat messages.</p>
 <p>Copy the following snippet and save it as <em>single-chat-viewer.js</em></p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> hyperswarm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hyperswarm&#x27;</span>)
-<span class="hljs-keyword">var</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
-<span class="hljs-keyword">var</span> pump = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;pump&#x27;</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Hyperswarm</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hyperswarm&#x27;</span>)
+<span class="hljs-keyword">const</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
+<span class="hljs-keyword">const</span> pump = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;pump&#x27;</span>)
 
-<span class="hljs-keyword">var</span> feed = <span class="hljs-title function_">hypercore</span>(<span class="hljs-string">&#x27;./single-chat-feed-clone&#x27;</span>, <span class="hljs-string">&#x27;{paste the public key created by single-chat.js}&#x27;</span>, {
+<span class="hljs-keyword">const</span> feed = <span class="hljs-title function_">hypercore</span>(<span class="hljs-string">&#x27;./single-chat-feed-clone&#x27;</span>, <span class="hljs-string">&#x27;{paste the public key created by single-chat.js}&#x27;</span>, {
   <span class="hljs-attr">valueEncoding</span>: <span class="hljs-string">&#x27;json&#x27;</span>
 })
 
@@ -59,11 +59,11 @@ feed.<span class="hljs-title function_">createReadStream</span>({ <span class="h
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)
   })
 
-<span class="hljs-keyword">var</span> swarm = <span class="hljs-title function_">hyperswarm</span>()
+<span class="hljs-keyword">const</span> swarm = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hyperswarm</span>()
 
 feed.<span class="hljs-title function_">ready</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) {
   <span class="hljs-comment">// we use the discovery as the topic</span>
-  swarm.<span class="hljs-title function_">join</span>(feed.<span class="hljs-property">discoveryKey</span>, { <span class="hljs-attr">lookup</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">announce</span>: <span class="hljs-literal">true</span> })
+  swarm.<span class="hljs-title function_">join</span>(feed.<span class="hljs-property">discoveryKey</span>)
   swarm.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">socket, info</span>) {
     <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;(New peer connected!)&#x27;</span>)
 

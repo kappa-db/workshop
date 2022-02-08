@@ -50,7 +50,7 @@
 <p>You can read a lot more about Hypercore at <a href="https://github.com/mafintosh/hypercore">https://github.com/mafintosh/hypercore</a> or talk to one of the mentors.</p>
 <p>It&#39;s a good idea to keep <a href="https://github.com/mafintosh/hypercore/blob/master/README.md">the hypercore README</a> open in a browser tab for the rest of the workshop.</p>
 <p>To get started, create a <em>package.json</em> with all the dependencies you will need for the workshop, including hypercore. In a terminal window, enter:</p>
-<pre><code class="hljs language-sh">git <span class="hljs-built_in">clone</span> https://gist.github.com/okdistribute/6d2d11e43977054d0613f4714cc48076 kappa-workshop
+<pre><code class="hljs language-sh">git <span class="hljs-built_in">clone</span> https://github.com/kappa-db/workshop.git kappa-workshop
 </code></pre>
 <p>Then, use your terminal to change the current working directory to the <code>kappa-workshop</code>:</p>
 <pre><code class="hljs language-sh"><span class="hljs-built_in">cd</span> kappa-workshop
@@ -60,7 +60,7 @@
 </code></pre>
 <p>This should install all of the modules specified in the package.json required for this workshop.</p>
 <p>To test that everything is installed successfully, make a new file called <em>hypercore.js</em> with the following content:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
 </code></pre>
 <h4 id="exercise">Exercise</h4>
 <p>Try running that file to see that it can load the installed Hypercore module. If no errors appear, then you have everything installed correctly!</p>
