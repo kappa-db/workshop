@@ -48,17 +48,17 @@
 <p>Eventually we&#39;d like to add movable characters to the game, so it would be nice if the chat messages only took up a fixed portion along the bottom of the screen.</p>
 <p>Two useful modules for managing a fullscreen terminal app&#39;s UI are <a href="https://github.com/neat-log/neat-log">neat-log</a> and <a href="https://github.com/noffle/txt-blit">txt-blit</a>. Both should already be installed in your workshop folder.</p>
 <p>Here is an example terminal app that draws the text <code>HELLO WORLD</code> animated in the middle of the screen. Type it into a file caled <em>ui.js</em>:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> neatLog = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;neat-log&#x27;</span>)
-<span class="hljs-keyword">var</span> blit = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;txt-blit&#x27;</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> neatLog = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;neat-log&#x27;</span>)
+<span class="hljs-keyword">const</span> blit = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;txt-blit&#x27;</span>)
 
-<span class="hljs-keyword">var</span> neat = <span class="hljs-title function_">neatLog</span>(view, { <span class="hljs-attr">fullscreen</span>: <span class="hljs-literal">true</span> })
+<span class="hljs-keyword">const</span> neat = <span class="hljs-title function_">neatLog</span>(view, { <span class="hljs-attr">fullscreen</span>: <span class="hljs-literal">true</span> })
 neat.<span class="hljs-title function_">use</span>(mainloop)
 
-<span class="hljs-keyword">var</span> termWidth = process.<span class="hljs-property">stdout</span>.<span class="hljs-property">columns</span>
-<span class="hljs-keyword">var</span> termHeight = process.<span class="hljs-property">stdout</span>.<span class="hljs-property">rows</span>
+<span class="hljs-keyword">const</span> termWidth = process.<span class="hljs-property">stdout</span>.<span class="hljs-property">columns</span>
+<span class="hljs-keyword">const</span> termHeight = process.<span class="hljs-property">stdout</span>.<span class="hljs-property">rows</span>
 
 <span class="hljs-keyword">function</span> <span class="hljs-title function_">view</span> (state) {
-  <span class="hljs-keyword">var</span> screen = []
+  <span class="hljs-keyword">const</span> screen = []
 
   <span class="hljs-keyword">var</span> x = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(termWidth / <span class="hljs-number">2</span>) + state.<span class="hljs-property">xOffset</span>
   <span class="hljs-keyword">var</span> y = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(termHeight / <span class="hljs-number">2</span>)
@@ -78,9 +78,9 @@ neat.<span class="hljs-title function_">use</span>(mainloop)
 <p>A common neat-log/txt-blit pattern is to write drawing functions that take a width and height parameter, that you can then draw to any dimensions.</p>
 <p>For example, here is a draw function that returns a filled box of the given width/height:</p>
 <pre><code class="hljs language-js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">drawFilledBox</span> (w, h) {
-    <span class="hljs-keyword">var</span> across = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(w).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&#x27;#&#x27;</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;&#x27;</span>)
-    <span class="hljs-keyword">var</span> down = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(h).<span class="hljs-title function_">fill</span>(across)
-    <span class="hljs-keyword">return</span> down
+  <span class="hljs-keyword">const</span> across = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(w).<span class="hljs-title function_">fill</span>(<span class="hljs-string">&#x27;#&#x27;</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;&#x27;</span>)
+  <span class="hljs-keyword">const</span> down = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Array</span>(h).<span class="hljs-title function_">fill</span>(across)
+  <span class="hljs-keyword">return</span> down
 }
 </code></pre>
 <h4 id="exercise">Exercise</h4>

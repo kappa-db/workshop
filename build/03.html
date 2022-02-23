@@ -48,15 +48,15 @@
 <p>What if we wanted to build a peer-to-peer chat app? We might want to know the text of the message, message type, nickname, and perhaps a timestamp. Let&#39;s store messages in a specific format – using <a href="https://json.org/">JSON</a> – so we can identify them as chat messages, as shown here:</p>
 <pre><code class="hljs language-js"><span class="hljs-comment">// Save this file as single-chat.js</span>
 
-<span class="hljs-keyword">var</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
-<span class="hljs-keyword">var</span> feed = <span class="hljs-title function_">hypercore</span>(<span class="hljs-string">&#x27;./single-chat-feed&#x27;</span>, {
+<span class="hljs-keyword">const</span> hypercore = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hypercore&#x27;</span>)
+<span class="hljs-keyword">const</span> feed = <span class="hljs-title function_">hypercore</span>(<span class="hljs-string">&#x27;./single-chat-feed&#x27;</span>, {
   <span class="hljs-attr">valueEncoding</span>: <span class="hljs-string">&#x27;json&#x27;</span>
 })
 
-feed.<span class="hljs-title function_">append</span>({ 
+feed.<span class="hljs-title function_">append</span>({
   <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;chat-message&#x27;</span>,
   <span class="hljs-attr">nickname</span>: <span class="hljs-string">&#x27;cat-lover&#x27;</span>,
-  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;hello world&#x27;</span>, 
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&#x27;hello world&#x27;</span>,
   <span class="hljs-attr">timestamp</span>: <span class="hljs-string">&#x27;2018-11-05T14:26:000Z&#x27;</span> <span class="hljs-comment">// new Date().toISOString()</span>
 }, <span class="hljs-keyword">function</span> (<span class="hljs-params">err, seq</span>) {
   <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">throw</span> err

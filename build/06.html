@@ -46,7 +46,7 @@
       <h3 id="6-networking-with-other-peers">6: Networking with other peers</h3>
 <p>Great, we now how a working chat app! However, it is not that interesting yet. First of all, we can only chat with ourselves. Even worse, we can only see the data in the same process to which we are writing. Kinda boring.</p>
 <p>Since we are doing a P2P workshop we want to make P2P network connections with each other. Contrary to how we build HTTP services we don&#39;t really have a client/server model in P2P. Instead we have what is called a &quot;swarm&quot;. A swarm is just a collection of network sockets connecting us to various users all interested in a specific topic.</p>
-<p>To achieve this, we&#39;ll use a module called <a href="https://github.com/hyperswarm"><code>hyperswarm</code></a>. This module has three strategies to connect the <em>swarm</em> of peers:</p>
+<p>To achieve this, we&#39;ll use a module called <a href="https://github.com/hyperswarm/hyperswarm"><code>hyperswarm</code></a>. This module has three strategies to connect the <em>swarm</em> of peers:</p>
 <ol>
 <li>Search the local network. It makes queries in the local network using multicast dns (MDNS).</li>
 <li>Search the internet using a well-known server. The next phase is to search using dns, also with <code>dns-discovery</code>.</li>
@@ -57,21 +57,16 @@ are hardcoded  <em>peers</em>. We use them so we have a starting point for disco
 <p>You give hyperswarm a unique key that other peers using your app can use to locate each other.</p>
 <h3 id="exercise">Exercise</h3>
 <p>Create a <em>discovery.js</em> file:</p>
-<pre><code class="hljs language-js"><span class="hljs-keyword">var</span> hyperswarm = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hyperswarm&#x27;</span>)
-<span class="hljs-keyword">var</span> swarm = <span class="hljs-title function_">hyperswarm</span>()
-<span class="hljs-keyword">var</span> topic = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">&#x27;a49766a23610999dc5dfe05bc37cd98a9911d4b46bd25fc2cd037b9669a1e214&#x27;</span>, <span class="hljs-string">&#x27;hex&#x27;</span>)
+<pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Hyperswarm</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;hyperswarm&#x27;</span>)
+<span class="hljs-keyword">const</span> swarm = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hyperswarm</span>()
+<span class="hljs-keyword">const</span> topic = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">&#x27;a49766a23610999dc5dfe05bc37cd98a9911d4b46bd25fc2cd037b9669a1e214&#x27;</span>, <span class="hljs-string">&#x27;hex&#x27;</span>)
 
-swarm.<span class="hljs-title function_">join</span>(topic, {
-  <span class="hljs-comment">// find and connect to peers</span>
-  <span class="hljs-attr">lookup</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-comment">// optional- announce yourself as a connection target</span>
-  <span class="hljs-attr">announce</span>: <span class="hljs-literal">true</span>
-})
+swarm.<span class="hljs-title function_">join</span>(topic)
 
 <span class="hljs-comment">// this event is fired every time you find and connect to a new peer also on the same key</span>
-swarm.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">socket, details</span>) {
-  <span class="hljs-comment">// `details` is a simple object that describes the peer we connected to</span>
-  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;found a peer&#x27;</span>, details)
+swarm.<span class="hljs-title function_">on</span>(<span class="hljs-string">&#x27;connection&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">socket, info</span>) {
+  <span class="hljs-comment">// `info` is a simple object that describes the peer we connected to</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;found a peer&#x27;</span>, info)
   <span class="hljs-comment">// `socket` is a duplex stream that you read from and write to it, e.g.,</span>
   <span class="hljs-comment">// process.stdin.pipe(socket).pipe(process.stdout)</span>
 })

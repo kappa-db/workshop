@@ -11,7 +11,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "hypercore": "^9.11.0",
-    "hyperswarm": "^2.10.1",
+    "hyperswarm": "^3.0.2",
     "kappa-core": "^7.0.0",
     "kappa-view-kv": "^2.0.2",
     "kappa-view-list": "^1.2.0",

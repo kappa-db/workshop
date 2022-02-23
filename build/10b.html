@@ -49,20 +49,20 @@
 <p>Here is an example of a <em>sorted list view</em> that sorts a message&#39;s <code>timestamp</code> field alphabetically. <code>kappa-view-list</code> sorts lexigraphically by default.</p>
 <pre><code class="hljs language-js"><span class="hljs-comment">// kappa-chat.js</span>
 
-<span class="hljs-keyword">var</span> kappa = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;kappa-core&#x27;</span>)
-<span class="hljs-keyword">var</span> memdb = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;memdb&#x27;</span>)
-<span class="hljs-keyword">var</span> list = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;kappa-view-list&#x27;</span>)
+<span class="hljs-keyword">const</span> kappa = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;kappa-core&#x27;</span>)
+<span class="hljs-keyword">const</span> memdb = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;memdb&#x27;</span>)
+<span class="hljs-keyword">const</span> list = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;kappa-view-list&#x27;</span>)
 
-<span class="hljs-keyword">var</span> timestampView = <span class="hljs-title function_">list</span>(<span class="hljs-title function_">memdb</span>(), <span class="hljs-keyword">function</span> (<span class="hljs-params">msg, next</span>) {
-    <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span> &amp;&amp; <span class="hljs-keyword">typeof</span> msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span> === <span class="hljs-string">&#x27;string&#x27;</span>) {
-        <span class="hljs-comment">// sort on the &#x27;timestamp&#x27; field</span>
-        <span class="hljs-title function_">next</span>(<span class="hljs-literal">null</span>, [msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span>])
-    } <span class="hljs-keyword">else</span> {
-        <span class="hljs-title function_">next</span>()
-    }
+<span class="hljs-keyword">const</span> timestampView = <span class="hljs-title function_">list</span>(<span class="hljs-title function_">memdb</span>(), <span class="hljs-keyword">function</span> (<span class="hljs-params">msg, next</span>) {
+  <span class="hljs-keyword">if</span> (msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span> &amp;&amp; <span class="hljs-keyword">typeof</span> msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span> === <span class="hljs-string">&#x27;string&#x27;</span>) {
+    <span class="hljs-comment">// sort on the &#x27;timestamp&#x27; field</span>
+    <span class="hljs-title function_">next</span>(<span class="hljs-literal">null</span>, [msg.<span class="hljs-property">value</span>.<span class="hljs-property">timestamp</span>])
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-title function_">next</span>()
+  }
 })
 
-<span class="hljs-keyword">var</span> core = <span class="hljs-title function_">kappa</span>(<span class="hljs-string">&#x27;./multichat&#x27;</span>, {<span class="hljs-attr">valueEncoding</span>: <span class="hljs-string">&#x27;json&#x27;</span>})
+<span class="hljs-keyword">const</span> core = <span class="hljs-title function_">kappa</span>(<span class="hljs-string">&#x27;./multichat&#x27;</span>, {<span class="hljs-attr">valueEncoding</span>: <span class="hljs-string">&#x27;json&#x27;</span>})
 core.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x27;chats&#x27;</span>, timestampView)
 </code></pre>
 <p>Running <code>core.use(title, view)</code> installs the list view API under <code>core.api.chats</code>.</p>
@@ -74,7 +74,7 @@ core.<span class="hljs-title function_">use</span>(<span class="hljs-string">&#x
 <li>You can always append test data using a local feed:</li>
 </ul>
 <pre><code class="hljs language-js">core.<span class="hljs-title function_">writer</span>(<span class="hljs-string">&#x27;local&#x27;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">err, feed</span>) {
-    feed.<span class="hljs-title function_">append</span>({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;chat-message&#x27;</span>, <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toISOString</span>() })
+  feed.<span class="hljs-title function_">append</span>({<span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;chat-message&#x27;</span>, <span class="hljs-attr">timestamp</span>: <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().<span class="hljs-title function_">toISOString</span>() })
 })
 </code></pre>
 <p>Once you solve this exercise continue to <a href="11.html">exercise 11</a></p>

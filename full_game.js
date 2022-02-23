@@ -1,25 +1,25 @@
-var chalk = require('chalk')
-var kappa = require('kappa-core')
-var memdb = require('memdb')
-var neatlog = require('neat-log')
-var neatinput = require('neat-log/input')
-var blit = require('txt-blit')
-var kv = require('kappa-view-kv')
-var list = require('kappa-view-list')
-var ram = require('random-access-memory')
-var hyperswarm = require('hyperswarm')
-var pump = require('pump')
-var crypto = require('crypto')
+const chalk = require('chalk')
+const kappa = require('kappa-core')
+const memdb = require('memdb')
+const neatlog = require('neat-log')
+const neatinput = require('neat-log/input')
+const blit = require('txt-blit')
+const kv = require('kappa-view-kv')
+const list = require('kappa-view-list')
+const ram = require('random-access-memory')
+const Hyperswarm = require('hyperswarm')
+const pump = require('pump')
+const crypto = require('crypto')
 
 // Creating topic
 const topicHex = crypto.createHash('sha256')
 		       .update('kappa-workshop-fullgame')
 		       .digest()
 
-var positionView = kv(memdb(), function (msg, next) {
+const positionView = kv(memdb(), function (msg, next) {
   if (msg.value.type !== 'move-player') return next()
 
-  var op = {
+  const op = {
     key: msg.key,
     id: msg.key + '@' + msg.seq,
     links: msg.value.links
@@ -27,25 +27,21 @@ var positionView = kv(memdb(), function (msg, next) {
   next(null, [op])
 })
 
-var chatView = list(memdb(), function (msg, next) {
+const chatView = list(memdb(), function (msg, next) {
   if (msg.value.type !== 'chat-message') return next()
 
   next(null, [msg.value.timestamp])
 })
 
-var core = kappa(ram, {valueEncoding:'json'})
+const core = kappa(ram, {valueEncoding:'json'})
 core.use('pos', positionView)
 core.use('chat', chatView)
 
 // search the local network + internet for peers
 core.ready(function () {
-  var swarm = hyperswarm()
-  swarm.join(topicHex, {
-    lookup: true, // find & connect to peers
-    announce: true // optional- announce self as a connection target
-  })
+  const swarm = new Hyperswarm()
+  swarm.join(topicHex)
   swarm.on('connection', function (connection, info) {
-    console.log('(New peer connected!)')
     pump(connection, core.replicate(info.client, { live: true }), connection)
   })
 })
@@ -61,7 +57,7 @@ core.writer('local', function (err, feed) {
   })
 })
 
-var app = neatlog(view, {
+const app = neatlog(view, {
   fullscreen: true,
   style: function (start, cursor, end) {
     if (!cursor) cursor = ' '
@@ -99,9 +95,9 @@ app.input.on('enter', function (line) {
 function moveLocalPlayer (xoffset, yoffset) {
   core.writer('local', function (err, feed) {
     core.api.pos.get(feed.key.toString('hex'), function (err, values) {
-      var x = (values[0].value.x || 0) + xoffset
-      var y = (values[0].value.y || 0) + yoffset
-      var links = values.map(v => v.key + '@' + v.seq)
+      const x = (values[0].value.x || 0) + xoffset
+      const y = (values[0].value.y || 0) + yoffset
+      const links = values.map(v => v.key + '@' + v.seq)
       feed.append({
         type: 'move-player',
         x: x,
@@ -114,11 +110,11 @@ function moveLocalPlayer (xoffset, yoffset) {
 
 // redraw the game synchronously
 function view (state) {
-  var screen = []
+  const screen = []
 
   // draw chat window
-  var chatWindowHeight = 10
-  var chatWindow = drawChatWindowOutline(process.stdout.columns, chatWindowHeight)
+  const chatWindowHeight = 10
+  const chatWindow = drawChatWindowOutline(process.stdout.columns, chatWindowHeight)
   blit(screen, chatWindow, 0, process.stdout.rows - chatWindowHeight - 1)
 
   // draw chat input
@@ -128,7 +124,7 @@ function view (state) {
   blit(screen, drawChatMessages(state, process.stdout.columns - 4, chatWindowHeight - 2), 2, process.stdout.rows - chatWindowHeight)
 
   // draw game area
-  var world = drawWorld(state, process.stdout.columns, process.stdout.rows - chatWindowHeight - 2)
+  const world = drawWorld(state, process.stdout.columns, process.stdout.rows - chatWindowHeight - 2)
   blit(screen, world, 0, 0)
 
   return screen.join('\n')
@@ -136,10 +132,10 @@ function view (state) {
 
 // draw all of the players
 function drawWorld (state, w, h) {
-  var out = []
+  const out = []
   Object.keys(state.characters || {}).forEach(function (key) {
-    var player = state.characters[key]
-    var playerString = chalk.greenBright('@')
+    const player = state.characters[key]
+    const playerString = chalk.greenBright('@')
     blit(out, [playerString], player.x, player.y)
   })
   return out
@@ -147,13 +143,13 @@ function drawWorld (state, w, h) {
 
 // draw the outline of the chat window
 function drawChatWindowOutline (w, h) {
-  var topbottom = new Array(w).fill('-').join('')
+  const topbottom = new Array(w).fill('-').join('')
 
-  var middle = new Array(w).fill(' ')
+  let middle = new Array(w).fill(' ')
   middle[0] = middle[w-1] = '|'
   middle = middle.join('')
 
-  var out = new Array(h).fill(middle)
+  let out = new Array(h).fill(middle)
   out[0] = out[h-1] = topbottom
 
   // color the window outline blue

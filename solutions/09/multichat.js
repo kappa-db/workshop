@@ -1,22 +1,22 @@
-var hyperswarm = require('hyperswarm')
-var hypercore = require('hypercore')
-var multifeed = require('multifeed')
-var crypto = require('crypto')
-var pump = require('pump')
+const Hyperswarm = require('hyperswarm')
+const hypercore = require('hypercore')
+const multifeed = require('multifeed')
+const crypto = require('crypto')
+const pump = require('pump')
 
 if (process.argv.length !== 3) {
   console.log('USAGE: "node multifeed.js 1" or "node multifeed.js 2"')
   process.exit(1)
   return
 }
-var num = process.argv[2]
+const num = process.argv[2]
 
 // Creating topic
 const topicHex = crypto.createHash('sha256')
   .update('foobar-123')
   .digest()
 
-var multi = multifeed('./multichat_' + num, {
+const multi = multifeed('./multichat_' + num, {
   valueEncoding: 'json'
 })
 
@@ -35,11 +35,8 @@ multi.writer('local', function(err, feed) {
 })
 
 function startSwarm(topic) {
-  var swarm = hyperswarm()
-  swarm.join(topic, {
-    lookup: true, // find & connect to peers
-    announce: true // optional- announce self as a connection target
-  })
+  const swarm = new Hyperswarm()
+  swarm.join(topic)
   swarm.on('connection', function(connection, info) {
     console.log('(New peer connected!)')
     pump(connection, multi.replicate(info.client, { live: true }), connection)
@@ -48,7 +45,7 @@ function startSwarm(topic) {
 
 function printChatLog() {
   multi.ready(function() {
-    var feeds = multi.feeds()
+    const feeds = multi.feeds()
     feeds.forEach(logFeed)
     multi.on('feed', logFeed)
   })
